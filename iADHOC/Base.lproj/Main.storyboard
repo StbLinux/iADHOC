@@ -60,35 +60,36 @@
             </objects>
             <point key="canvasLocation" x="948" y="980"/>
         </scene>
-        <!--Fornitori-->
+        <!--Anagrafica Fornitori-->
         <scene sceneID="RwF-WQ-lJD">
             <objects>
-                <tableViewController id="pBm-Cp-Uyf" customClass="Fornitori" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="awt-sB-o5C">
+                <tableViewController title="Anagrafica Fornitori" id="pBm-Cp-Uyf" customClass="Fornitori" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="116" sectionHeaderHeight="22" sectionFooterHeight="22" id="awt-sB-o5C">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ZoomFornitori" rowHeight="100" id="dvB-O5-t8q" customClass="ZoomFor">
+                            <tableViewCell contentMode="scaleAspectFit" selectionStyle="blue" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="ZoomFornitori" rowHeight="116" id="dvB-O5-t8q" customClass="ZoomFor">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dvB-O5-t8q" id="lbs-Nh-bjW">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Codice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JKg-Li-Zlv">
-                                            <rect key="frame" x="8" y="8" width="75" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ragione sociale" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iyu-9u-V4T">
-                                            <rect key="frame" x="8" y="37" width="526" height="21"/>
+                                            <rect key="frame" x="8" y="56" width="526" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Indirizzo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mNS-S7-Z3E">
-                                            <rect key="frame" x="8" y="66" width="442" height="21"/>
+                                            <rect key="frame" x="8" y="90" width="442" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Codice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JKg-Li-Zlv">
+                                            <rect key="frame" x="8" y="21" width="75" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -98,6 +99,7 @@
                                     <outlet property="codice" destination="JKg-Li-Zlv" id="top-DG-TYm"/>
                                     <outlet property="indiri" destination="mNS-S7-Z3E" id="ZQR-Ch-iKQ"/>
                                     <outlet property="ragsoc" destination="iyu-9u-V4T" id="qrE-6v-Z4Y"/>
+                                    <segue destination="WW1-me-8s1" kind="showDetail" identifier="DettaglioFornitori" trigger="accessoryAction" id="EEB-6Z-izl"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -107,10 +109,70 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Fornitori" id="JeH-XB-UGM"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rWv-Mi-ThQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1272" y="256"/>
+            <point key="canvasLocation" x="1224" y="242"/>
+        </scene>
+        <!--Dettaglio Fornitori-->
+        <scene sceneID="N7r-HA-YaX">
+            <objects>
+                <viewController id="WW1-me-8s1" customClass="DettaglioFornitori" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kkx-24-HTb"/>
+                        <viewControllerLayoutGuide type="bottom" id="azt-c4-jo2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="d7l-RU-obh">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UUu-9Z-dQD">
+                                <rect key="frame" x="0.0" y="11" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Dettaglio Fornitore" id="5XI-6D-KDu">
+                                        <barButtonItem key="leftBarButtonItem" title="Indietro" id="4ZY-TW-iuz">
+                                            <connections>
+                                                <action selector="Torna:" destination="WW1-me-8s1" id="VeP-XE-Ys2"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ANCODICE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZzU-i3-eJF">
+                                <rect key="frame" x="11" y="85" width="122" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ANRAGSOC" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qL2-hW-s4x">
+                                <rect key="frame" x="11" y="125" width="537" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pagamento" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5G-R7-2D5">
+                                <rect key="frame" x="11" y="283" width="88" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="ANCODICE" destination="ZzU-i3-eJF" id="Xsg-nO-Tnb"/>
+                        <outlet property="ANRAGSOC" destination="qL2-hW-s4x" id="tDj-se-6UK"/>
+                        <outlet property="CodPag" destination="E5G-R7-2D5" id="bPo-0H-XZA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xNr-4h-30g" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1974" y="157"/>
         </scene>
         <!--iADHOC Software 2000-->
         <scene sceneID="paf-D4-dfP">

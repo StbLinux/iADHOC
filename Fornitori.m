@@ -9,6 +9,8 @@
 #import "Fornitori.h"
 #import "SQLClient.h"
 #import "ZoomFor.h"
+#import "DettaglioFornitori.h"
+
 @interface Fornitori ()
 
 @end
@@ -69,8 +71,14 @@ ragione=[valueArray objectAtIndex:indexPath.row];
 return cell;
 }
 
-
-
+/*- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier:@"DettaglioFornitori" sender:nil];
+}*/
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier:@"DettaglioFornitori" sender:nil];
+    
+    
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -97,23 +105,35 @@ return cell;
 }
 */
 
-/*
+
 // Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+/*- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the item to be re-orderable.
     return YES;
-}
-*/
+}*/
 
-/*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+ //In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"DettaglioFornitori"])
+        
+    {
+        
+        DettaglioFornitori *DetFor = [segue destinationViewController];
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        //NSLog(@"%@",[keyArray objectAtIndex:selectedIndexPath.row]);
+        DetFor.pCodiceFornitore=[keyArray objectAtIndex:selectedIndexPath.row];
+        NSString *rgsoc=[valueArray objectAtIndex:selectedIndexPath.row];
+        DetFor.pRagsoc=[rgsoc substringToIndex:[rgsoc rangeOfString:@"-"].location-1];
+    }
+    
+    
+    
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
+
 -(void)EstrapolaDati{
     SQLClient* client = [SQLClient sharedInstance];
     client.delegate = self;
@@ -167,7 +187,7 @@ return cell;
     
     valueArray = [ClientiElenco allValues];
     keyArray = [ClientiElenco allKeys];
-    NSLog(@"%@",valueArray);
+    //NSLog(@"%@",valueArray);
     [self.tableView reloadData];
     
 }

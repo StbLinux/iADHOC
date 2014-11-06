@@ -17,6 +17,7 @@
 		B7248B001A0A18CE00819B06 /* SQLClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248AF81A0A18CE00819B06 /* SQLClient.m */; };
 		B7248B021A0A191F00819B06 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7248B011A0A191F00819B06 /* libiconv.dylib */; };
 		B7248B3F1A0A1F0800819B06 /* Clienti.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248B3E1A0A1F0800819B06 /* Clienti.m */; };
+		B74A10E01A0B8B6E00C507A1 /* DettaglioFornitori.m in Sources */ = {isa = PBXBuildFile; fileRef = B74A10DF1A0B8B6E00C507A1 /* DettaglioFornitori.m */; };
 		B76A279E1A0ACFF8003E1728 /* ZoomCli.m in Sources */ = {isa = PBXBuildFile; fileRef = B76A279D1A0ACFF8003E1728 /* ZoomCli.m */; };
 		B76A27A41A0AE653003E1728 /* Fornitori.m in Sources */ = {isa = PBXBuildFile; fileRef = B76A27A31A0AE653003E1728 /* Fornitori.m */; };
 		B76A27A71A0AEC2D003E1728 /* ZoomFor.m in Sources */ = {isa = PBXBuildFile; fileRef = B76A27A61A0AEC2D003E1728 /* ZoomFor.m */; };
@@ -63,6 +64,8 @@
 		B7248B011A0A191F00819B06 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		B7248B3D1A0A1F0800819B06 /* Clienti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Clienti.h; path = ../Clienti.h; sourceTree = "<group>"; };
 		B7248B3E1A0A1F0800819B06 /* Clienti.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Clienti.m; path = ../Clienti.m; sourceTree = "<group>"; };
+		B74A10DE1A0B8B6E00C507A1 /* DettaglioFornitori.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DettaglioFornitori.h; sourceTree = "<group>"; };
+		B74A10DF1A0B8B6E00C507A1 /* DettaglioFornitori.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DettaglioFornitori.m; sourceTree = "<group>"; };
 		B76A279C1A0ACFF8003E1728 /* ZoomCli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomCli.h; sourceTree = "<group>"; };
 		B76A279D1A0ACFF8003E1728 /* ZoomCli.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomCli.m; sourceTree = "<group>"; };
 		B76A27A21A0AE653003E1728 /* Fornitori.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fornitori.h; path = ../Fornitori.h; sourceTree = "<group>"; };
@@ -121,14 +124,16 @@
 				B76A27A51A0AEC2D003E1728 /* ZoomFor.h */,
 				B76A27A61A0AEC2D003E1728 /* ZoomFor.m */,
 				B76A27A21A0AE653003E1728 /* Fornitori.h */,
-				B76A27AA1A0AEEE8003E1728 /* ad_hoc_revolution.gif */,
 				B76A27A31A0AE653003E1728 /* Fornitori.m */,
+				B76A27AA1A0AEEE8003E1728 /* ad_hoc_revolution.gif */,
 				B76A27A81A0AEE8F003E1728 /* ahr_a.png */,
 				B76A279C1A0ACFF8003E1728 /* ZoomCli.h */,
 				B76A279D1A0ACFF8003E1728 /* ZoomCli.m */,
 				B7248ABA1A0A182E00819B06 /* AppDelegate.h */,
 				B7248ABB1A0A182E00819B06 /* AppDelegate.m */,
 				B7248AC31A0A182E00819B06 /* Main.storyboard */,
+				B74A10DE1A0B8B6E00C507A1 /* DettaglioFornitori.h */,
+				B74A10DF1A0B8B6E00C507A1 /* DettaglioFornitori.m */,
 				B7248AC61A0A182E00819B06 /* Images.xcassets */,
 				B7248AC81A0A182E00819B06 /* LaunchScreen.xib */,
 				B7248AB61A0A182E00819B06 /* Supporting Files */,
@@ -285,6 +290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B74A10E01A0B8B6E00C507A1 /* DettaglioFornitori.m in Sources */,
 				B7248B3F1A0A1F0800819B06 /* Clienti.m in Sources */,
 				B76A27A71A0AEC2D003E1728 /* ZoomFor.m in Sources */,
 				B7248ABC1A0A182E00819B06 /* AppDelegate.m in Sources */,
