@@ -9,12 +9,19 @@
 /* Begin PBXBuildFile section */
 		B7248AB91A0A182E00819B06 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248AB81A0A182E00819B06 /* main.m */; };
 		B7248ABC1A0A182E00819B06 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248ABB1A0A182E00819B06 /* AppDelegate.m */; };
-		B7248ABF1A0A182E00819B06 /* iADHOC.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B7248ABD1A0A182E00819B06 /* iADHOC.xcdatamodeld */; };
-		B7248AC21A0A182E00819B06 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248AC11A0A182E00819B06 /* ViewController.m */; };
 		B7248AC51A0A182E00819B06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7248AC31A0A182E00819B06 /* Main.storyboard */; };
 		B7248AC71A0A182E00819B06 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B7248AC61A0A182E00819B06 /* Images.xcassets */; };
 		B7248ACA1A0A182E00819B06 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7248AC81A0A182E00819B06 /* LaunchScreen.xib */; };
 		B7248AD61A0A182E00819B06 /* iADHOCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248AD51A0A182E00819B06 /* iADHOCTests.m */; };
+		B7248AFF1A0A18CE00819B06 /* libfreetds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7248AF51A0A18CE00819B06 /* libfreetds.a */; };
+		B7248B001A0A18CE00819B06 /* SQLClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248AF81A0A18CE00819B06 /* SQLClient.m */; };
+		B7248B021A0A191F00819B06 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7248B011A0A191F00819B06 /* libiconv.dylib */; };
+		B7248B3F1A0A1F0800819B06 /* Clienti.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248B3E1A0A1F0800819B06 /* Clienti.m */; };
+		B76A279E1A0ACFF8003E1728 /* ZoomCli.m in Sources */ = {isa = PBXBuildFile; fileRef = B76A279D1A0ACFF8003E1728 /* ZoomCli.m */; };
+		B76A27A41A0AE653003E1728 /* Fornitori.m in Sources */ = {isa = PBXBuildFile; fileRef = B76A27A31A0AE653003E1728 /* Fornitori.m */; };
+		B76A27A71A0AEC2D003E1728 /* ZoomFor.m in Sources */ = {isa = PBXBuildFile; fileRef = B76A27A61A0AEC2D003E1728 /* ZoomFor.m */; };
+		B76A27A91A0AEE8F003E1728 /* ahr_a.png in Resources */ = {isa = PBXBuildFile; fileRef = B76A27A81A0AEE8F003E1728 /* ahr_a.png */; };
+		B76A27AB1A0AEEE8003E1728 /* ad_hoc_revolution.gif in Resources */ = {isa = PBXBuildFile; fileRef = B76A27AA1A0AEEE8003E1728 /* ad_hoc_revolution.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,15 +40,37 @@
 		B7248AB81A0A182E00819B06 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B7248ABA1A0A182E00819B06 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B7248ABB1A0A182E00819B06 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		B7248ABE1A0A182E00819B06 /* iADHOC.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iADHOC.xcdatamodel; sourceTree = "<group>"; };
-		B7248AC01A0A182E00819B06 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		B7248AC11A0A182E00819B06 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		B7248AC41A0A182E00819B06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B7248AC61A0A182E00819B06 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B7248AC91A0A182E00819B06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		B7248ACF1A0A182E00819B06 /* iADHOCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iADHOCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7248AD41A0A182E00819B06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7248AD51A0A182E00819B06 /* iADHOCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iADHOCTests.m; sourceTree = "<group>"; };
+		B7248AF11A0A18CE00819B06 /* bkpublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bkpublic.h; sourceTree = "<group>"; };
+		B7248AF21A0A18CE00819B06 /* cspublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cspublic.h; sourceTree = "<group>"; };
+		B7248AF31A0A18CE00819B06 /* cstypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cstypes.h; sourceTree = "<group>"; };
+		B7248AF41A0A18CE00819B06 /* ctpublic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ctpublic.h; sourceTree = "<group>"; };
+		B7248AF51A0A18CE00819B06 /* libfreetds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfreetds.a; sourceTree = "<group>"; };
+		B7248AF61A0A18CE00819B06 /* odbcss.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = odbcss.h; sourceTree = "<group>"; };
+		B7248AF71A0A18CE00819B06 /* SQLClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLClient.h; sourceTree = "<group>"; };
+		B7248AF81A0A18CE00819B06 /* SQLClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLClient.m; sourceTree = "<group>"; };
+		B7248AF91A0A18CE00819B06 /* sqldb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqldb.h; sourceTree = "<group>"; };
+		B7248AFA1A0A18CE00819B06 /* sqlfront.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlfront.h; sourceTree = "<group>"; };
+		B7248AFB1A0A18CE00819B06 /* sybdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sybdb.h; sourceTree = "<group>"; };
+		B7248AFC1A0A18CE00819B06 /* syberror.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = syberror.h; sourceTree = "<group>"; };
+		B7248AFD1A0A18CE00819B06 /* sybfront.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sybfront.h; sourceTree = "<group>"; };
+		B7248AFE1A0A18CE00819B06 /* tds_sysdep_public.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tds_sysdep_public.h; sourceTree = "<group>"; };
+		B7248B011A0A191F00819B06 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		B7248B3D1A0A1F0800819B06 /* Clienti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Clienti.h; path = ../Clienti.h; sourceTree = "<group>"; };
+		B7248B3E1A0A1F0800819B06 /* Clienti.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Clienti.m; path = ../Clienti.m; sourceTree = "<group>"; };
+		B76A279C1A0ACFF8003E1728 /* ZoomCli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomCli.h; sourceTree = "<group>"; };
+		B76A279D1A0ACFF8003E1728 /* ZoomCli.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomCli.m; sourceTree = "<group>"; };
+		B76A27A21A0AE653003E1728 /* Fornitori.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fornitori.h; path = ../Fornitori.h; sourceTree = "<group>"; };
+		B76A27A31A0AE653003E1728 /* Fornitori.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Fornitori.m; path = ../Fornitori.m; sourceTree = "<group>"; };
+		B76A27A51A0AEC2D003E1728 /* ZoomFor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomFor.h; sourceTree = "<group>"; };
+		B76A27A61A0AEC2D003E1728 /* ZoomFor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomFor.m; sourceTree = "<group>"; };
+		B76A27A81A0AEE8F003E1728 /* ahr_a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ahr_a.png; sourceTree = "<group>"; };
+		B76A27AA1A0AEEE8003E1728 /* ad_hoc_revolution.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = ad_hoc_revolution.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +78,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7248B021A0A191F00819B06 /* libiconv.dylib in Frameworks */,
+				B7248AFF1A0A18CE00819B06 /* libfreetds.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +96,7 @@
 		B7248AAA1A0A182E00819B06 = {
 			isa = PBXGroup;
 			children = (
+				B7248B011A0A191F00819B06 /* libiconv.dylib */,
 				B7248AB51A0A182E00819B06 /* iADHOC */,
 				B7248AD21A0A182E00819B06 /* iADHOCTests */,
 				B7248AB41A0A182E00819B06 /* Products */,
@@ -83,14 +115,22 @@
 		B7248AB51A0A182E00819B06 /* iADHOC */ = {
 			isa = PBXGroup;
 			children = (
+				B7248AF01A0A18CE00819B06 /* SQLClient */,
+				B7248B3D1A0A1F0800819B06 /* Clienti.h */,
+				B7248B3E1A0A1F0800819B06 /* Clienti.m */,
+				B76A27A51A0AEC2D003E1728 /* ZoomFor.h */,
+				B76A27A61A0AEC2D003E1728 /* ZoomFor.m */,
+				B76A27A21A0AE653003E1728 /* Fornitori.h */,
+				B76A27AA1A0AEEE8003E1728 /* ad_hoc_revolution.gif */,
+				B76A27A31A0AE653003E1728 /* Fornitori.m */,
+				B76A27A81A0AEE8F003E1728 /* ahr_a.png */,
+				B76A279C1A0ACFF8003E1728 /* ZoomCli.h */,
+				B76A279D1A0ACFF8003E1728 /* ZoomCli.m */,
 				B7248ABA1A0A182E00819B06 /* AppDelegate.h */,
 				B7248ABB1A0A182E00819B06 /* AppDelegate.m */,
-				B7248AC01A0A182E00819B06 /* ViewController.h */,
-				B7248AC11A0A182E00819B06 /* ViewController.m */,
 				B7248AC31A0A182E00819B06 /* Main.storyboard */,
 				B7248AC61A0A182E00819B06 /* Images.xcassets */,
 				B7248AC81A0A182E00819B06 /* LaunchScreen.xib */,
-				B7248ABD1A0A182E00819B06 /* iADHOC.xcdatamodeld */,
 				B7248AB61A0A182E00819B06 /* Supporting Files */,
 			);
 			path = iADHOC;
@@ -120,6 +160,27 @@
 				B7248AD41A0A182E00819B06 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B7248AF01A0A18CE00819B06 /* SQLClient */ = {
+			isa = PBXGroup;
+			children = (
+				B7248AF11A0A18CE00819B06 /* bkpublic.h */,
+				B7248AF21A0A18CE00819B06 /* cspublic.h */,
+				B7248AF31A0A18CE00819B06 /* cstypes.h */,
+				B7248AF41A0A18CE00819B06 /* ctpublic.h */,
+				B7248AF51A0A18CE00819B06 /* libfreetds.a */,
+				B7248AF61A0A18CE00819B06 /* odbcss.h */,
+				B7248AF71A0A18CE00819B06 /* SQLClient.h */,
+				B7248AF81A0A18CE00819B06 /* SQLClient.m */,
+				B7248AF91A0A18CE00819B06 /* sqldb.h */,
+				B7248AFA1A0A18CE00819B06 /* sqlfront.h */,
+				B7248AFB1A0A18CE00819B06 /* sybdb.h */,
+				B7248AFC1A0A18CE00819B06 /* syberror.h */,
+				B7248AFD1A0A18CE00819B06 /* sybfront.h */,
+				B7248AFE1A0A18CE00819B06 /* tds_sysdep_public.h */,
+			);
+			path = SQLClient;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +266,8 @@
 				B7248AC51A0A182E00819B06 /* Main.storyboard in Resources */,
 				B7248ACA1A0A182E00819B06 /* LaunchScreen.xib in Resources */,
 				B7248AC71A0A182E00819B06 /* Images.xcassets in Resources */,
+				B76A27A91A0AEE8F003E1728 /* ahr_a.png in Resources */,
+				B76A27AB1A0AEEE8003E1728 /* ad_hoc_revolution.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,9 +285,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7248B3F1A0A1F0800819B06 /* Clienti.m in Sources */,
+				B76A27A71A0AEC2D003E1728 /* ZoomFor.m in Sources */,
 				B7248ABC1A0A182E00819B06 /* AppDelegate.m in Sources */,
-				B7248ABF1A0A182E00819B06 /* iADHOC.xcdatamodeld in Sources */,
-				B7248AC21A0A182E00819B06 /* ViewController.m in Sources */,
+				B7248B001A0A18CE00819B06 /* SQLClient.m in Sources */,
+				B76A27A41A0AE653003E1728 /* Fornitori.m in Sources */,
+				B76A279E1A0ACFF8003E1728 /* ZoomCli.m in Sources */,
 				B7248AB91A0A182E00819B06 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -351,6 +417,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = iADHOC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SQLClient",
+					"$(PROJECT_DIR)/iADHOC/SQLClient",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -361,6 +432,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = iADHOC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SQLClient",
+					"$(PROJECT_DIR)/iADHOC/SQLClient",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -418,6 +494,7 @@
 				B7248ADB1A0A182E00819B06 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B7248ADC1A0A182E00819B06 /* Build configuration list for PBXNativeTarget "iADHOCTests" */ = {
 			isa = XCConfigurationList;
@@ -426,21 +503,9 @@
 				B7248ADE1A0A182E00819B06 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		B7248ABD1A0A182E00819B06 /* iADHOC.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				B7248ABE1A0A182E00819B06 /* iADHOC.xcdatamodel */,
-			);
-			currentVersion = B7248ABE1A0A182E00819B06 /* iADHOC.xcdatamodel */;
-			path = iADHOC.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = B7248AAB1A0A182E00819B06 /* Project object */;
 }
