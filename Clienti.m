@@ -9,18 +9,24 @@
 #import "Clienti.h"
 #import "SQLClient.h"
 #import "ZoomCli.h"
+#import "ANACLI.h"
+#import "DettaglioClienti.h"
+
 @interface Clienti ()
+@property (strong, nonatomic) IBOutlet UISearchBar *CercaBar;
 
 @end
 
-@implementation Clienti
+@implementation Clienti{
+    ANACLI *anacli;
+    NSArray *searchResults;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
                 
     [self EstrapolaDati];
-        NSLog(@"%@",keyArray);
-      // NSLog(@"%s","pippo");
+    
    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -47,7 +53,7 @@
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
    // return [elements count];
-    return [keyArray count];
+    return [tablesource count];
     //return 4;
 }
 
@@ -63,12 +69,16 @@
     if(cell==nil) {;
         cell=[[ZoomCli alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ZoomClienti];
     }
-    [cell.codice setText:[keyArray objectAtIndex:indexPath.row]];
+    //[cell.codice setText:[keyArray objectAtIndex:indexPath.row]];
   //  NSLog(@"%@",[keyArray objectAtIndex:indexPath.row]);
     //[cell.textLabel setText:@"pippo"];
-    ragione=[valueArray objectAtIndex:indexPath.row];
-   [cell.ragsoc setText:[ragione substringToIndex:[ragione rangeOfString:@"-"].location-1]];
-    [cell.indiri setText:[ragione substringFromIndex:[ragione rangeOfString:@"-"].location+2]];
+    //ragione=[valueArray objectAtIndex:indexPath.row];
+   //[cell.ragsoc setText:[ragione substringToIndex:[ragione rangeOfString:@"-"].location-1]];
+    ANACLI *clienti = [tablesource objectAtIndex:indexPath.row];
+    cell.codice.text=clienti.codice;
+    cell.ragsoc.text=clienti.ragsoc;
+    cell.indiri.text=clienti.paese;
+   // [cell.indiri setText:[ragione substringFromIndex:[ragione rangeOfString:@"-"].location+2]];
    // [cell.ragsoc setText:[valueArray ob]];
     //cell.textLabel.text = [elements objectAtIndex:indexPath.row];
        return cell;
@@ -108,23 +118,41 @@
     return YES;
 }
 */
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier:@"DettaglioClienti" sender:nil];
+    
+    
+}
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    ANACLI *cliente_stru=[[ANACLI alloc]init];
+    if ([segue.identifier isEqualToString:@"DettaglioClienti"])
+        
+    {
+        
+        DettaglioClienti *DetCli = [segue destinationViewController];
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        cliente_stru=[tablesource objectAtIndex:selectedIndexPath.row];
+        //NSLog(@"%@",[keyArray objectAtIndex:selectedIndexPath.row]);
+        DetCli.pCodiceCliente=cliente_stru.codice;
+        DetCli.pRagsoc=cliente_stru.ragsoc;
+    }
+    
+
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
+
 -(void)EstrapolaDati{
     SQLClient* client = [SQLClient sharedInstance];
     client.delegate = self;
     [client connect:@"81.174.32.50:1433" username:@"sa" password:@"Soft2%milA" database:@"AHR70" completion:^(BOOL success) {
         if (success)
         {
-            [client execute:@"SELECT ANCODICE,ANDESCRI,ANLOCALI FROM dbo.S2010CONTI where ANTIPCON='C' " completion:^(NSArray* results) {
+            [client execute:@"SELECT ANCODICE,ANDESCRI,ANLOCALI FROM dbo.S2010CONTI where ANTIPCON='C' Order By ANDESCRI " completion:^(NSArray* results) {
                 [self PopolaTabella:results];
                 [client disconnect];
             }];
@@ -135,47 +163,53 @@
     
 }
 -(void)PopolaTabella:(NSArray*)data{
-    ClientiElenco=[[NSMutableDictionary alloc] init];
-    
-    //NSMutableString* results = [[NSMutableString alloc] init];
+   
+   NSMutableArray* tbsource=[[NSMutableArray alloc]init];
+   
     for (NSArray* table in data)
         for (NSDictionary* row in table){
-             NSMutableString* anacli=[[NSMutableString alloc] init];
-            for (NSString* column in row){
+            ANACLI *ANAGRAFICA=[[ANACLI alloc]init];
+                for (NSString* column in row){
                
                 //NSLog(@"%@",row[column]);
                 if (![column isEqual:@"ANCODICE"]){
                     if ([column isEqual:@"ANLOCALI"]) {
-                       [anacli appendString:@" - "];
+                      
+                        ANAGRAFICA.paese=row[column];
                     }
-                    
-                    [anacli appendString:row[column]];
+                    if ([column isEqual:@"ANDESCRI"]) {
+                       
+                        ANAGRAFICA.ragsoc=row[column] ;
+                    }
+                   
                 }
                 else {
-                    [ClientiElenco setValue:anacli forKey:row[@"ANCODICE"]];
+                   
+                     ANAGRAFICA.codice=row[column];
                     
                 }
-                //[ClientiElenco setValue:valoritabella forKey:row[@"ANCODICE"]];
+                
+               
                 
             }
-   
-                }
+            // NSLog(@"%@",ANAGRAFICA.codice );
+            [tbsource   addObject:ANAGRAFICA];
+         
+                     }
     
             
+    tablesource=tbsource;
     
-                
     
-    
-                //ClientiElenco setValue:column forKey:row[column]];
-                //[results appendFormat:@"\n%@-", row[column]];
-    
-    valueArray = [ClientiElenco allValues];
-    keyArray = [ClientiElenco allKeys];
-    NSLog(@"%@",valueArray);
+  
     [self.tableView reloadData];
     
 }
-
+/*- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", searchText];
+    searchResults = [recipes filteredArrayUsingPredicate:resultPredicate];
+}*/
 #pragma mark - SQLClientDelegate
 
 //Required

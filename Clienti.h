@@ -11,10 +11,7 @@
 @interface Clienti : UITableViewController <SQLClientDelegate>
 {
     
-    NSMutableDictionary *ClientiElenco;
-    NSArray *keyArray;
-    NSArray *valueArray;
-    NSString *ragione;
+   NSArray *tablesource;
    // NSArray *elements;
 }
 -(void)EstrapolaDati;

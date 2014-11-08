@@ -11,6 +11,7 @@
 @interface ZoomCli : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *codice;
 @property (strong, nonatomic) IBOutlet UILabel *ragsoc;
+
 @property (strong, nonatomic) IBOutlet UILabel *indiri;
 
 @end
