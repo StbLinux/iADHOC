@@ -19,6 +19,11 @@
 		B7248B3F1A0A1F0800819B06 /* Clienti.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248B3E1A0A1F0800819B06 /* Clienti.m */; };
 		B7321EB91A0D5F5A0089B2D1 /* DettaglioClienti.m in Sources */ = {isa = PBXBuildFile; fileRef = B7321EB81A0D5F5A0089B2D1 /* DettaglioClienti.m */; };
 		B7321EBC1A0D89850089B2D1 /* ANACLI.m in Sources */ = {isa = PBXBuildFile; fileRef = B7321EBB1A0D89850089B2D1 /* ANACLI.m */; };
+		B7478EDA1A0E457000BD4B8F /* Telefono.png in Resources */ = {isa = PBXBuildFile; fileRef = B7478ED91A0E457000BD4B8F /* Telefono.png */; };
+		B7478EDC1A0E465A00BD4B8F /* email.png in Resources */ = {isa = PBXBuildFile; fileRef = B7478EDB1A0E465A00BD4B8F /* email.png */; };
+		B7478EDE1A0E489800BD4B8F /* contact3.png in Resources */ = {isa = PBXBuildFile; fileRef = B7478EDD1A0E489800BD4B8F /* contact3.png */; };
+		B7478EE01A0E50C900BD4B8F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7478EDF1A0E50C900BD4B8F /* MapKit.framework */; };
+		B7478EE21A0E544D00BD4B8F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7478EE11A0E544D00BD4B8F /* CoreLocation.framework */; };
 		B74A10E01A0B8B6E00C507A1 /* DettaglioFornitori.m in Sources */ = {isa = PBXBuildFile; fileRef = B74A10DF1A0B8B6E00C507A1 /* DettaglioFornitori.m */; };
 		B76A279E1A0ACFF8003E1728 /* ZoomCli.m in Sources */ = {isa = PBXBuildFile; fileRef = B76A279D1A0ACFF8003E1728 /* ZoomCli.m */; };
 		B76A27A41A0AE653003E1728 /* Fornitori.m in Sources */ = {isa = PBXBuildFile; fileRef = B76A27A31A0AE653003E1728 /* Fornitori.m */; };
@@ -70,6 +75,11 @@
 		B7321EB81A0D5F5A0089B2D1 /* DettaglioClienti.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DettaglioClienti.m; sourceTree = "<group>"; };
 		B7321EBA1A0D89850089B2D1 /* ANACLI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANACLI.h; sourceTree = "<group>"; };
 		B7321EBB1A0D89850089B2D1 /* ANACLI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANACLI.m; sourceTree = "<group>"; };
+		B7478ED91A0E457000BD4B8F /* Telefono.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Telefono.png; sourceTree = "<group>"; };
+		B7478EDB1A0E465A00BD4B8F /* email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = email.png; sourceTree = "<group>"; };
+		B7478EDD1A0E489800BD4B8F /* contact3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contact3.png; sourceTree = "<group>"; };
+		B7478EDF1A0E50C900BD4B8F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		B7478EE11A0E544D00BD4B8F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B74A10DE1A0B8B6E00C507A1 /* DettaglioFornitori.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DettaglioFornitori.h; sourceTree = "<group>"; };
 		B74A10DF1A0B8B6E00C507A1 /* DettaglioFornitori.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DettaglioFornitori.m; sourceTree = "<group>"; };
 		B76A279C1A0ACFF8003E1728 /* ZoomCli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomCli.h; sourceTree = "<group>"; };
@@ -87,6 +97,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7478EE21A0E544D00BD4B8F /* CoreLocation.framework in Frameworks */,
+				B7478EE01A0E50C900BD4B8F /* MapKit.framework in Frameworks */,
 				B7248B021A0A191F00819B06 /* libiconv.dylib in Frameworks */,
 				B7248AFF1A0A18CE00819B06 /* libfreetds.a in Frameworks */,
 			);
@@ -105,6 +117,8 @@
 		B7248AAA1A0A182E00819B06 = {
 			isa = PBXGroup;
 			children = (
+				B7478EE11A0E544D00BD4B8F /* CoreLocation.framework */,
+				B7478EDF1A0E50C900BD4B8F /* MapKit.framework */,
 				B7248B011A0A191F00819B06 /* libiconv.dylib */,
 				B7248AB51A0A182E00819B06 /* iADHOC */,
 				B7248AD21A0A182E00819B06 /* iADHOCTests */,
@@ -135,7 +149,10 @@
 				B76A27A31A0AE653003E1728 /* Fornitori.m */,
 				B76A27AA1A0AEEE8003E1728 /* ad_hoc_revolution.gif */,
 				B76A27A81A0AEE8F003E1728 /* ahr_a.png */,
+				B7478EDD1A0E489800BD4B8F /* contact3.png */,
+				B7478EDB1A0E465A00BD4B8F /* email.png */,
 				B76A279C1A0ACFF8003E1728 /* ZoomCli.h */,
+				B7478ED91A0E457000BD4B8F /* Telefono.png */,
 				B76A279D1A0ACFF8003E1728 /* ZoomCli.m */,
 				B7248ABA1A0A182E00819B06 /* AppDelegate.h */,
 				B7248ABB1A0A182E00819B06 /* AppDelegate.m */,
@@ -279,10 +296,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7248AC51A0A182E00819B06 /* Main.storyboard in Resources */,
+				B7478EDA1A0E457000BD4B8F /* Telefono.png in Resources */,
 				B7248ACA1A0A182E00819B06 /* LaunchScreen.xib in Resources */,
 				B7248AC71A0A182E00819B06 /* Images.xcassets in Resources */,
 				B76A27A91A0AEE8F003E1728 /* ahr_a.png in Resources */,
 				B76A27AB1A0AEEE8003E1728 /* ad_hoc_revolution.gif in Resources */,
+				B7478EDE1A0E489800BD4B8F /* contact3.png in Resources */,
+				B7478EDC1A0E465A00BD4B8F /* email.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

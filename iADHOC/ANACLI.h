@@ -13,6 +13,10 @@
 @property (nonatomic, strong) NSString *codice; // codice cliente
 @property (nonatomic, strong) NSString *ragsoc; // ragione sociale
 @property (nonatomic, strong) NSString *paese; // Paese
-
+@property (nonatomic, strong) NSString *indirizzo; //
+@property (nonatomic, strong) NSString *cap; //
+@property (nonatomic, strong) NSString *provincia; //
+@property (nonatomic, strong) NSString *telefono; //
+@property (nonatomic, strong) NSString *email; //
 
 @end

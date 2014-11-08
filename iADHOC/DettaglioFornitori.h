@@ -18,8 +18,15 @@
 
     
 }
-@property (strong, nonatomic) IBOutlet UILabel *ANCODICE;
-@property (strong, nonatomic) IBOutlet UILabel *ANRAGSOC;
+@property (strong, nonatomic) IBOutlet UILabel *codice;
+@property (strong, nonatomic) IBOutlet UILabel *ragsoc;
+@property (strong, nonatomic) IBOutlet UILabel *indirizzo;
+@property (strong, nonatomic) IBOutlet UILabel *cap;
+@property (strong, nonatomic) IBOutlet UILabel *paese;
+@property (strong, nonatomic) IBOutlet UILabel *provincia;
+@property (strong, nonatomic) IBOutlet UILabel *telefono;
+@property (strong, nonatomic) IBOutlet UILabel *email;
+
 @property (strong, nonatomic) IBOutlet UILabel *CodPag;
 
 

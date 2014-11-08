@@ -8,14 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "SQLClient.h"
-
+#import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 @interface DettaglioClienti : UIViewController <SQLClientDelegate>{
+    NSArray *tablesource;
     
-    NSMutableDictionary *ClientiElenco;
-    NSArray *keyArray;
-    NSArray *valueArray;
-    NSString *ragione;
-    // NSArray *elements;
 }
 
 
@@ -28,7 +25,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *Paese;
 @property (strong, nonatomic) IBOutlet UILabel *Provincia;
 @property (strong, nonatomic) IBOutlet UILabel *Telefono;
-
 @property (strong, nonatomic) IBOutlet UILabel *EMAIL;
 
 

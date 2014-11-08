@@ -8,6 +8,7 @@
 
 #import "DettaglioFornitori.h"
 #import "SQLClient.h"
+#import "ANACLI.h"
 @interface DettaglioFornitori ()
 - (IBAction)Torna:(id)sender;
 
@@ -16,10 +17,11 @@
 @implementation DettaglioFornitori
 - (void)viewDidLoad {
     [super viewDidLoad];
-       _ANCODICE.text=_pCodiceFornitore;
-       _ANRAGSOC.text=_pRagsoc;
+       _codice.text=_pCodiceFornitore;
+       _ragsoc.text=_pRagsoc;
     NSLog(@" %@",_pCodiceFornitore);
-    NSString *SQLState=[NSString stringWithFormat:@"%@%@%@",@"SELECT ANCODPAG FROM dbo.S2010CONTI where ANTIPCON='F' and ANCODICE='",_pCodiceFornitore,@"'"];
+    NSString *SQLState=[NSString stringWithFormat:@"%@%@%@",@"SELECT ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.S2010CONTI where ANTIPCON='F' and ANCODICE='",_pCodiceFornitore,@"'"];
+
     
     NSLog(@" %@",SQLState);
     [self CaricaDettaglioDB:SQLState];
@@ -64,18 +66,48 @@
 }
 -(void) AssegnaValori:(NSArray *)data{
     
-    ClientiElenco=[[NSMutableDictionary alloc] init];
     
-    //NSMutableString* results = [[NSMutableString alloc] init];
     for (NSArray* table in data)
         for (NSDictionary* row in table){
-            for (NSString* column in row){
-                _CodPag.text=row[column];
-                //NSLog(@"%@",row[column]);
-                
-}
+            ANACLI *ANAGRAFICA=[[ANACLI alloc]init];
             
+            for (NSString* column in row){
+                if ([column isEqual:@"ANINDIRI"]) {
+                    ANAGRAFICA.indirizzo=row[column];
+                    
+                }
+                if ([column isEqual:@"AN___CAP"]) {
+                    ANAGRAFICA.cap=row[column];
+                    
+                }
+                if ([column isEqual:@"ANLOCALI"]) {
+                    ANAGRAFICA.paese=row[column];
+                    
+                }
+                if ([column isEqual:@"ANPROVIN"]) {
+                    ANAGRAFICA.provincia=row[column];
+                    
+                }
+                if ([column isEqual:@"ANTELEFO"]) {
+                    ANAGRAFICA.telefono=row[column];
+                }
+                if ([column isEqual:@"AN_EMAIL"]) {
+                    ANAGRAFICA.email=row[column];
+                }
+                
+                //NSLog(@"%@",row[column]);
+                _indirizzo.text=ANAGRAFICA.indirizzo;
+                _cap.text=ANAGRAFICA.cap;
+                _paese.text=ANAGRAFICA.paese;
+                _provincia.text=ANAGRAFICA.provincia;
+                _telefono.text=ANAGRAFICA.telefono;
+                _email.text=ANAGRAFICA.email;
+                
             }
+            
+        }
+    
+
 
 }
 

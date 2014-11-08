@@ -9,13 +9,18 @@
 #import "Fornitori.h"
 #import "SQLClient.h"
 #import "ZoomFor.h"
+#import "ANACLI.h"
 #import "DettaglioFornitori.h"
 
 @interface Fornitori ()
 
 @end
 
-@implementation Fornitori
+@implementation Fornitori{
+    ANACLI *anacli;
+    NSArray *searchResults;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,7 +48,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return [keyArray count];
+    return [tablesource count];
 
 }
 
@@ -60,13 +65,10 @@ if(cell==nil) {
     cell=[[ZoomFor alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ZoomFornitori];
 }
      
-[cell.codice setText:[keyArray objectAtIndex:indexPath.row]];
-//  NSLog(@"%@",[keyArray objectAtIndex:indexPath.row]);
-//[cell.textLabel setText:@"pippo"];
-ragione=[valueArray objectAtIndex:indexPath.row];
-[cell.ragsoc setText:[ragione substringToIndex:[ragione rangeOfString:@"-"].location-1]];
-[cell.indiri setText:[ragione substringFromIndex:[ragione rangeOfString:@"-"].location+2]];
-//cell.textLabel.text = [elements objectAtIndex:indexPath.row];
+     ANACLI *clienti = [tablesource objectAtIndex:indexPath.row];
+     cell.codice.text=clienti.codice;
+     cell.ragsoc.text=clienti.ragsoc;
+     cell.indiri.text=clienti.paese;
      
 return cell;
 }
@@ -116,16 +118,19 @@ return cell;
 
  //In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    ANACLI *cliente_stru=[[ANACLI alloc]init];
     if ([segue.identifier isEqualToString:@"DettaglioFornitori"])
         
     {
         
         DettaglioFornitori *DetFor = [segue destinationViewController];
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        cliente_stru=[tablesource objectAtIndex:selectedIndexPath.row];
+
         //NSLog(@"%@",[keyArray objectAtIndex:selectedIndexPath.row]);
-        DetFor.pCodiceFornitore=[keyArray objectAtIndex:selectedIndexPath.row];
-        NSString *rgsoc=[valueArray objectAtIndex:selectedIndexPath.row];
-        DetFor.pRagsoc=[rgsoc substringToIndex:[rgsoc rangeOfString:@"-"].location-1];
+        DetFor.pCodiceFornitore=cliente_stru.codice;
+        DetFor.pRagsoc=cliente_stru.ragsoc;
+        
     }
     
     
@@ -151,43 +156,45 @@ return cell;
     
 }
 -(void)PopolaTabella:(NSArray*)data{
-    ClientiElenco=[[NSMutableDictionary alloc] init];
     
-    //NSMutableString* results = [[NSMutableString alloc] init];
+    NSMutableArray* tbsource=[[NSMutableArray alloc]init];
+    
     for (NSArray* table in data)
         for (NSDictionary* row in table){
-            NSMutableString* anacli=[[NSMutableString alloc] init];
+            ANACLI *ANAGRAFICA=[[ANACLI alloc]init];
             for (NSString* column in row){
                 
                 //NSLog(@"%@",row[column]);
                 if (![column isEqual:@"ANCODICE"]){
                     if ([column isEqual:@"ANLOCALI"]) {
-                        [anacli appendString:@" - "];
+                        
+                        ANAGRAFICA.paese=row[column];
+                    }
+                    if ([column isEqual:@"ANDESCRI"]) {
+                        
+                        ANAGRAFICA.ragsoc=row[column] ;
                     }
                     
-                    [anacli appendString:row[column]];
                 }
                 else {
-                    [ClientiElenco setValue:anacli forKey:row[@"ANCODICE"]];
+                    
+                    ANAGRAFICA.codice=row[column];
                     
                 }
-                //[ClientiElenco setValue:valoritabella forKey:row[@"ANCODICE"]];
+                
+                
                 
             }
+            // NSLog(@"%@",ANAGRAFICA.codice );
+            [tbsource   addObject:ANAGRAFICA];
             
         }
     
     
+    tablesource=tbsource;
     
     
     
-    
-    //ClientiElenco setValue:column forKey:row[column]];
-    //[results appendFormat:@"\n%@-", row[column]];
-    
-    valueArray = [ClientiElenco allValues];
-    keyArray = [ClientiElenco allKeys];
-    //NSLog(@"%@",valueArray);
     [self.tableView reloadData];
     
 }

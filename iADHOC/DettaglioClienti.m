@@ -7,7 +7,7 @@
 //
 
 #import "DettaglioClienti.h"
-
+#import "ANACLI.h"
 @interface DettaglioClienti ()
 - (IBAction)Indietro:(id)sender;
 @property (strong, nonatomic) IBOutlet UINavigationBar *Navigazione;
@@ -20,7 +20,7 @@
     [super viewDidLoad];
     _CodiceCliente.text=_pCodiceCliente;
     _RagioneSociale.text=_pRagsoc;
-       NSString *SQLState=[NSString stringWithFormat:@"%@%@%@",@"SELECT ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL FROM dbo.S2010CONTI where ANTIPCON='C' and ANCODICE='",_pCodiceCliente,@"'"];
+       NSString *SQLState=[NSString stringWithFormat:@"%@%@%@",@"SELECT ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.S2010CONTI where ANTIPCON='C' and ANCODICE='",_pCodiceCliente,@"'"];
     
     NSLog(@" %@",SQLState);
     [self CaricaDettaglioDB:SQLState];
@@ -52,42 +52,49 @@
 
 -(void) AssegnaValori:(NSArray *)data{
     
-    ClientiElenco=[[NSMutableDictionary alloc] init];
+   
     
-    //NSMutableString* results = [[NSMutableString alloc] init];
     for (NSArray* table in data)
         for (NSDictionary* row in table){
+            ANACLI *ANAGRAFICA=[[ANACLI alloc]init];
+
             for (NSString* column in row){
                 if ([column isEqual:@"ANINDIRI"]) {
-                    _Indirizzo.text=[row[column]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                    ANAGRAFICA.indirizzo=row[column];
 
                 }
                 if ([column isEqual:@"AN___CAP"]) {
-                    _Cap.text=row[column];
+                   ANAGRAFICA.cap=row[column];
                     
                 }
                 if ([column isEqual:@"ANLOCALI"]) {
-                    _Paese.text=[row[column] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                    ANAGRAFICA.paese=row[column];
                     
                 }
                 if ([column isEqual:@"ANPROVIN"]) {
-                    _Provincia.text=[NSString stringWithFormat:@"%@%@%@",@"(",row[column],@")"];
+                    ANAGRAFICA.provincia=row[column];
                     
                 }
                 if ([column isEqual:@"ANTELEFO"]) {
-                    _Telefono.text=[NSString stringWithFormat:@"%@%@",@"Telefono: ",row[column]];
-                    
+                    ANAGRAFICA.telefono=row[column];
                 }
                 if ([column isEqual:@"AN_EMAIL"]) {
-                    _EMAIL.text=[NSString stringWithFormat:@"%@%@",@"Email :",row[column]];
-                    
+                    ANAGRAFICA.email=row[column];
                 }
 
                                //NSLog(@"%@",row[column]);
-                
+                _Indirizzo.text=ANAGRAFICA.indirizzo;
+                _Cap.text=ANAGRAFICA.cap;
+                _Paese.text=ANAGRAFICA.paese;
+                _Provincia.text=ANAGRAFICA.provincia;
+                _Telefono.text=ANAGRAFICA.telefono;
+                _EMAIL.text=ANAGRAFICA.email;
+               
             }
             
         }
+    
+
     
 }
 
