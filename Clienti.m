@@ -24,8 +24,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-                
-    [self EstrapolaDati];
+    NSString *SQLState=@"SELECT ANCODICE, ANDESCRI,ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.S2010CONTI where ANTIPCON='C' order by ANDESCRI";
+    
+    [self EstrapolaDati:SQLState];
     
    
     // Uncomment the following line to preserve selection between presentations.
@@ -139,6 +140,13 @@
         //NSLog(@"%@",[keyArray objectAtIndex:selectedIndexPath.row]);
         DetCli.pCodiceCliente=cliente_stru.codice;
         DetCli.pRagsoc=cliente_stru.ragsoc;
+        DetCli.pPaese=cliente_stru.paese;
+        DetCli.pCap=cliente_stru.cap;
+        DetCli.pProvincia=cliente_stru.provincia;
+        DetCli.pTelefono=cliente_stru.telefono;
+        DetCli.pIndirizzo=cliente_stru.indirizzo;
+        DetCli.pEMAIL=cliente_stru.email;
+        DetCli.pcodpag=cliente_stru.codpag;
     }
     
 
@@ -146,13 +154,13 @@
     // Pass the selected object to the new view controller.
 }
 
--(void)EstrapolaDati{
+-(void)EstrapolaDati:(NSString*)SQLstring{
     SQLClient* client = [SQLClient sharedInstance];
     client.delegate = self;
     [client connect:@"81.174.32.50:1433" username:@"sa" password:@"Soft2%milA" database:@"AHR70" completion:^(BOOL success) {
         if (success)
         {
-            [client execute:@"SELECT ANCODICE,ANDESCRI,ANLOCALI FROM dbo.S2010CONTI where ANTIPCON='C' Order By ANDESCRI " completion:^(NSArray* results) {
+            [client execute:SQLstring completion:^(NSArray* results) {
                 [self PopolaTabella:results];
                 [client disconnect];
             }];
@@ -172,7 +180,7 @@
                 for (NSString* column in row){
                
                 //NSLog(@"%@",row[column]);
-                if (![column isEqual:@"ANCODICE"]){
+               
                     if ([column isEqual:@"ANLOCALI"]) {
                       
                         ANAGRAFICA.paese=row[column];
@@ -181,17 +189,39 @@
                        
                         ANAGRAFICA.ragsoc=row[column] ;
                     }
-                   
+                    if ([column isEqual:@"ANINDIRI"]) {
+                        
+                        ANAGRAFICA.indirizzo=row[column] ;
+                    }
+                    if ([column isEqual:@"ANCODICE"]) {
+                        
+                        ANAGRAFICA.codice=row[column] ;
+                    }
+                    if ([column isEqual:@"ANTELEFO"]) {
+                        
+                        ANAGRAFICA.telefono=row[column] ;
+                    }
+                    if ([column isEqual:@"ANPROVINCIA"]) {
+                        
+                        ANAGRAFICA.provincia=row[column] ;
+                    }
+                    if ([column isEqual:@"AN___CAP"]) {
+                        
+                        ANAGRAFICA.cap=row[column] ;
+                    }
+                    if ([column isEqual:@"AN_EMAIL"]) {
+                        
+                        ANAGRAFICA.email=row[column] ;
+                    }
+                    if ([column isEqual:@"ANCODPAG"]) {
+                        
+                        ANAGRAFICA.codpag=row[column] ;
+                    }
                 }
-                else {
-                   
-                     ANAGRAFICA.codice=row[column];
-                    
-                }
-                
+            
                
                 
-            }
+           
             // NSLog(@"%@",ANAGRAFICA.codice );
             [tbsource   addObject:ANAGRAFICA];
          

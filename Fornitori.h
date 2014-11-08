@@ -14,7 +14,7 @@
     // NSArray *elements;
 
 }
--(void)EstrapolaDati;
+-(void)EstrapolaDati:(NSString*) SQLstring;;
 
 
 @end

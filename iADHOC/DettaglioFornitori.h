@@ -7,17 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SQLClient.h"
-@interface DettaglioFornitori : UIViewController <SQLClientDelegate>{
-    
-    NSMutableDictionary *ClientiElenco;
-    NSArray *keyArray;
-    NSArray *valueArray;
-    NSString *ragione;
-    // NSArray *elements;
 
-    
-}
+@interface DettaglioFornitori : UIViewController
 @property (strong, nonatomic) IBOutlet UILabel *codice;
 @property (strong, nonatomic) IBOutlet UILabel *ragsoc;
 @property (strong, nonatomic) IBOutlet UILabel *indirizzo;
@@ -32,5 +23,11 @@
 
 @property (retain,nonatomic) NSString *pCodiceFornitore;
 @property (retain,nonatomic) NSString *pRagsoc;
--(void)CaricaDettaglioDB: (NSString*)SQLstring;
+@property (retain, nonatomic) NSString *pIndirizzo;
+@property (retain, nonatomic) NSString *pCap;
+@property (retain, nonatomic) NSString *pPaese;
+@property (retain, nonatomic) NSString *pProvincia;
+@property (retain, nonatomic) NSString *pTelefono;
+@property (retain, nonatomic) NSString *pEMAIL;
+@property (retain,nonatomic) NSString *pcodpag;
 @end

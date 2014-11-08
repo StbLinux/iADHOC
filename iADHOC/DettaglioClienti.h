@@ -7,17 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SQLClient.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
-@interface DettaglioClienti : UIViewController <SQLClientDelegate>{
-    NSArray *tablesource;
-    
-}
+@interface DettaglioClienti : UIViewController
 
 
 @property (retain,nonatomic) NSString *pCodiceCliente;
 @property (retain,nonatomic) NSString *pRagsoc;
+@property (retain, nonatomic) NSString *pIndirizzo;
+@property (retain, nonatomic) NSString *pCap;
+@property (retain, nonatomic) NSString *pPaese;
+@property (retain, nonatomic) NSString *pProvincia;
+@property (retain, nonatomic) NSString *pTelefono;
+@property (retain, nonatomic) NSString *pEMAIL;
+@property (retain,nonatomic) NSString *pcodpag;
+
 @property (strong, nonatomic) IBOutlet UILabel *CodiceCliente;
 @property (strong, nonatomic) IBOutlet UILabel *RagioneSociale;
 @property (strong, nonatomic) IBOutlet UILabel *Indirizzo;
@@ -30,7 +34,5 @@
 
 
 
-
--(void)CaricaDettaglioDB: (NSString*)SQLstring;
 
 @end

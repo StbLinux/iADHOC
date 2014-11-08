@@ -18,5 +18,5 @@
 @property (nonatomic, strong) NSString *provincia; //
 @property (nonatomic, strong) NSString *telefono; //
 @property (nonatomic, strong) NSString *email; //
-
+@property (nonatomic, strong) NSString *codpag; //
 @end
