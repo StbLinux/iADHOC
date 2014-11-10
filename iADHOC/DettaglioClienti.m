@@ -7,38 +7,41 @@
 //
 
 #import "DettaglioClienti.h"
-#import <MapKit/MapKit.h>
-#import <CoreLocation/CoreLocation.h>
-@interface DettaglioClienti ()
+@interface DettaglioClienti () <MKMapViewDelegate,CLLocationManagerDelegate> {
+    MKPolyline *_routeOverlay;
+    MKRoute *_currentRoute;
+}
+
 - (IBAction)Indietro:(id)sender;
 @property (strong, nonatomic) IBOutlet UINavigationBar *Navigazione;
-
 
 @end
 
 @implementation DettaglioClienti
-
 - (void)viewDidLoad {
     [super viewDidLoad];
    
     _CodiceCliente.text=_pCodiceCliente;
     _RagioneSociale.text=_pRagsoc;
     _Indirizzo.text=_pIndirizzo;
+   
     _Cap.text=_pCap;
     _Paese.text=_pPaese;
     _EMAIL.text=_pEMAIL;
     _Provincia.text=_pProvincia;
     _Telefono.text=_pTelefono;
-    _locationmanager = [[CLLocationManager alloc]init]; // initializing locationManager
-    _locationmanager.delegate = self;
     _mappa.delegate=self;
-    _locationmanager.desiredAccuracy = kCLLocationAccuracyBest; // setting the accuracy
-    [_locationmanager requestWhenInUseAuthorization]; // iOS 8 MUST
-    [_locationmanager startUpdatingLocation];  //requesting location updates
-   [ self.locationmanager requestWhenInUseAuthorization];
-   self.mappa.showsUserLocation=YES;
-   
-   }
+    CLLocationManager    *locationmanager = [CLLocationManager new]; // initializing locationManager
+    locationmanager.delegate = self;
+    locationmanager.desiredAccuracy = kCLLocationAccuracyBest; // setting the accuracy
+    [locationmanager requestAlwaysAuthorization];
+    [_mappa setShowsUserLocation:YES];
+    [_mappa setZoomEnabled:YES];
+    [self percorso];
+    
+    
+    
+          }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -59,12 +62,77 @@
 }
 */
 
-
 - (IBAction)Indietro:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 
 }
 -(void)percorso {
+   // NSString *location = @"some address, state, and zip";
+    NSString *location = [NSString stringWithFormat:@"%@%@%@%@%@",_Paese.text,@",",_Indirizzo.text,@",",_Cap.text];
+        CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     
+    [geocoder geocodeAddressString:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (error) {
+            NSLog(@"%@", error);
+            
+        } else {
+            CLPlacemark *placemark = [placemarks lastObject];
+            MKDirectionsRequest *directionsRequest = [MKDirectionsRequest new];
+            MKMapItem *source = [MKMapItem mapItemForCurrentLocation];
+            CLLocationCoordinate2D destinationCoords = CLLocationCoordinate2DMake(placemark.location.coordinate.latitude,placemark.location.coordinate.longitude);
+            MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:destinationCoords addressDictionary:nil];
+            MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
+            // Set the source and destination on the request
+            [directionsRequest setSource:source];
+            [directionsRequest setDestination:destination];
+            MKDirections *directions = [[MKDirections alloc] initWithRequest:directionsRequest];
+            [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+                // Now handle the result
+                if (error) {
+                    NSLog(@"There was an error getting your directions");
+                    return;
+                }
+                
+                // So there wasn't an error - let's plot those routes
+                _currentRoute = [response.routes firstObject];
+                [self plotRouteOnMap:_currentRoute];
+            }];
+            NSLog(@"%@",@"pippO");
+          // .location.coordinate.latitude; //will returns latitude
+            //             placemark.location.coordinate.longitude; will returns longitude
+        }
+    }];
+    
+    // Make the destination
+    
+
+}
+- (void)plotRouteOnMap:(MKRoute *)route
+{
+    if(_routeOverlay) {
+        [self.mappa removeOverlay:_routeOverlay];
+    }
+    
+    // Update the ivar
+    _routeOverlay = route.polyline;
+    
+    // Add it to the map
+    [self.mappa addOverlay:_routeOverlay];
+}
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
+{
+    MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
+    renderer.strokeColor = [UIColor redColor];
+    renderer.lineWidth = 4.0;
+    return  renderer;
 }
 @end
+/*_locationmanager = [[CLLocationManager alloc]init]; // initializing locationManager
+ _locationmanager.delegate = self;
+ _mappa.delegate=self;
+ _locationmanager.desiredAccuracy = kCLLocationAccuracyBest; // setting the accuracy
+ [_locationmanager requestWhenInUseAuthorization]; // iOS 8 MUST
+ [_locationmanager startUpdatingLocation];  //requesting location updates
+ [ self.locationmanager requestWhenInUseAuthorization];
+ self.mappa.showsUserLocation=YES;*/
+

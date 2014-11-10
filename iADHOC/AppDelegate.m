@@ -24,6 +24,7 @@
     self.UtenteId=[userDef stringForKey:@"UtenteId"];
     self.PasswordId=[userDef stringForKey:@"PasswordId"];
     self.DBId=[userDef stringForKey:@"DBId"];
+    self.AziendaId=[userDef stringForKey:@"AziendaId"];
     
 
 

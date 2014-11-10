@@ -26,8 +26,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-        NSString *SQLState=@"SELECT ANCODICE, ANDESCRI,ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.S2010CONTI where ANTIPCON='C' order by ANDESCRI";
+     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     
+    NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ANCODICE, ANDESCRI,ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='C' order by ANDESCRI"];
     [self EstrapolaDati:SQLState];
     
    

@@ -155,7 +155,7 @@
                                 <rect key="frame" x="1" y="116" width="27" height="26"/>
                             </imageView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="egj-La-Jzt">
-                                <rect key="frame" x="2" y="266" width="361" height="219"/>
+                                <rect key="frame" x="2" y="333" width="373" height="267"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -342,7 +342,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="3TQ-hR-gqm">
-                                <rect key="frame" x="6" y="331" width="354" height="197"/>
+                                <rect key="frame" x="0.0" y="362" width="380" height="238"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -355,6 +355,7 @@
                         <outlet property="codice" destination="ZzU-i3-eJF" id="Lsd-Oh-bjU"/>
                         <outlet property="email" destination="xme-qG-QfB" id="IpC-fh-vZD"/>
                         <outlet property="indirizzo" destination="HmI-Jz-X0a" id="Y4O-Of-v1T"/>
+                        <outlet property="mappa" destination="3TQ-hR-gqm" id="nuM-co-6oO"/>
                         <outlet property="paese" destination="8wL-e3-LAQ" id="N1B-Ij-dk9"/>
                         <outlet property="provincia" destination="ZQy-Q0-qMA" id="MKG-7g-S7j"/>
                         <outlet property="ragsoc" destination="qL2-hW-s4x" id="7UB-Ot-9gp"/>

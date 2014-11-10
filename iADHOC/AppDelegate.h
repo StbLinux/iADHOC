@@ -21,6 +21,7 @@
 @property (strong,nonatomic) NSString *UtenteId;
 @property (strong,nonatomic) NSString *PasswordId;
 @property (strong,nonatomic) NSString *DBId;
+@property (strong,nonatomic) NSString *AziendaId;
 
 
 - (void)saveContext;
