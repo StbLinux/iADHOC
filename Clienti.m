@@ -20,11 +20,13 @@
 @implementation Clienti{
     ANACLI *anacli;
     NSArray *searchResults;
-}
+    
+    
+   }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSString *SQLState=@"SELECT ANCODICE, ANDESCRI,ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.S2010CONTI where ANTIPCON='C' order by ANDESCRI";
+        NSString *SQLState=@"SELECT ANCODICE, ANDESCRI,ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.S2010CONTI where ANTIPCON='C' order by ANDESCRI";
     
     [self EstrapolaDati:SQLState];
     
@@ -79,6 +81,7 @@
     cell.codice.text=clienti.codice;
     cell.ragsoc.text=clienti.ragsoc;
     cell.indiri.text=clienti.paese;
+
    // [cell.indiri setText:[ragione substringFromIndex:[ragione rangeOfString:@"-"].location+2]];
    // [cell.ragsoc setText:[valueArray ob]];
     //cell.textLabel.text = [elements objectAtIndex:indexPath.row];
@@ -154,7 +157,7 @@
     // Pass the selected object to the new view controller.
 }
 
--(void)EstrapolaDati:(NSString*)SQLstring{
+/*-(void)EstrapolaDati:(NSString*)SQLstring{
     SQLClient* client = [SQLClient sharedInstance];
     client.delegate = self;
     [client connect:@"81.174.32.50:1433" username:@"sa" password:@"Soft2%milA" database:@"AHR70" completion:^(BOOL success) {
@@ -169,7 +172,27 @@
     }];
  
     
+}*/
+-(void)EstrapolaDati:(NSString*)SQLstring{
+    SQLClient* client = [SQLClient sharedInstance];
+    client.delegate = self;
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+   
+  
+    [client connect:[NSString stringWithFormat:@"%@%@%@",mainDelegate.ServerId,@":",mainDelegate.PortaId] username:[NSString stringWithFormat:@"%@",mainDelegate.UtenteId]  password:[NSString stringWithFormat:@"%@",mainDelegate.PasswordId]  database:[NSString stringWithFormat:@"%@",mainDelegate.DBId]   completion:^(BOOL success) {
+        if (success)
+        {
+            [client execute:SQLstring completion:^(NSArray* results) {
+                [self PopolaTabella:results];
+                [client disconnect];
+            }];
+        }
+        
+    }];
+    
+    
 }
+
 -(void)PopolaTabella:(NSArray*)data{
    
    NSMutableArray* tbsource=[[NSMutableArray alloc]init];

@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
-@interface DettaglioClienti : UIViewController
+
+@interface DettaglioClienti : UIViewController <MKMapViewDelegate,CLLocationManagerDelegate>
 
 
 @property (retain,nonatomic) NSString *pCodiceCliente;
@@ -31,7 +32,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *Telefono;
 @property (strong, nonatomic) IBOutlet UILabel *EMAIL;
 
-
+@property (strong, nonatomic) IBOutlet MKMapView *mappa;
+@property (strong, nonatomic) CLLocationManager* locationmanager;
 
 
 

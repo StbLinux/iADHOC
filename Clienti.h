@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "SQLClient.h"
+#import"AppDelegate.h"
 @interface Clienti : UITableViewController <SQLClientDelegate>
 {
-    
+   
    NSArray *tablesource;
    // NSArray *elements;
+    
+   
 }
 
 -(void)EstrapolaDati:(NSString*) SQLstring;
-
 @end

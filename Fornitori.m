@@ -150,7 +150,9 @@ return cell;
 -(void)EstrapolaDati:(NSString*) SQLState;{
     SQLClient* client = [SQLClient sharedInstance];
     client.delegate = self;
-    [client connect:@"81.174.32.50:1433" username:@"sa" password:@"Soft2%milA" database:@"AHR70" completion:^(BOOL success) {
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+
+    [client connect:[NSString stringWithFormat:@"%@%@%@",mainDelegate.ServerId,@":",mainDelegate.PortaId] username:[NSString stringWithFormat:@"%@",mainDelegate.UtenteId]  password:[NSString stringWithFormat:@"%@",mainDelegate.PasswordId]  database:[NSString stringWithFormat:@"%@",mainDelegate.DBId]   completion:^(BOOL success) {
         if (success)
         {
             [client execute:SQLState completion:^(NSArray* results) {

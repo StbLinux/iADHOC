@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SQLClient.h"
+#import "AppDelegate.h"
 @interface Fornitori : UITableViewController <SQLClientDelegate>
 {
     NSArray *tablesource;

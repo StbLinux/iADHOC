@@ -8,7 +8,7 @@
         <scene sceneID="d7m-iR-23m">
             <objects>
                 <tableViewController id="ra7-Ky-jss" customClass="Clienti" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="ftg-y0-ifE">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="84" sectionHeaderHeight="22" sectionFooterHeight="22" id="ftg-y0-ifE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -20,7 +20,7 @@
                             </items>
                         </navigationBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="ZoomClienti" rowHeight="80" id="L5V-s8-fwl" customClass="ZoomCli">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="ZoomClienti" rowHeight="84" id="L5V-s8-fwl" customClass="ZoomCli">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="93"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="L5V-s8-fwl" id="b4o-nQ-Zte">
@@ -47,9 +47,9 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="codice" destination="6BL-UI-obW" id="U7I-s1-6Ja"/>
-                                    <outlet property="indiri" destination="gaW-Gv-iaf" id="WVJ-zb-iQf"/>
-                                    <outlet property="ragsoc" destination="8nZ-ph-nuN" id="4Ua-1P-Btf"/>
+                                    <outlet property="codice" destination="6BL-UI-obW" id="mO5-to-oyU"/>
+                                    <outlet property="indiri" destination="gaW-Gv-iaf" id="fR2-FP-p1S"/>
+                                    <outlet property="ragsoc" destination="8nZ-ph-nuN" id="Rq1-7k-iSD"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -171,6 +171,7 @@
                         <outlet property="Provincia" destination="pej-X7-jTl" id="BgA-J1-eck"/>
                         <outlet property="RagioneSociale" destination="ZvJ-wd-2jn" id="qyh-4H-pO0"/>
                         <outlet property="Telefono" destination="yGv-Og-zXI" id="zYI-rc-IRe"/>
+                        <outlet property="mappa" destination="egj-La-Jzt" id="1Db-Fz-q4r"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bgI-9A-gtX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -278,7 +279,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ANRAGSOC" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qL2-hW-s4x">
-                                <rect key="frame" x="127" y="91" width="537" height="20.5"/>
+                                <rect key="frame" x="127" y="91" width="537" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
