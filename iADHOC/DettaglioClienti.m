@@ -20,7 +20,14 @@
 @implementation DettaglioClienti
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
+   /* UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]
+                                             initWithTarget:self action:@selector(Chiama:)];
+    
+    // Specify that the gesture must be a single tap
+    tapRecognizer.numberOfTapsRequired = 1;
+    
+    // Add the tap gesture recognizer to the view
+       [self.view addGestureRecognizer:tapRecognizer];*/
     _CodiceCliente.text=_pCodiceCliente;
     _RagioneSociale.text=_pRagsoc;
     _Indirizzo.text=_pIndirizzo;
@@ -36,7 +43,6 @@
     locationmanager.desiredAccuracy = kCLLocationAccuracyBest; // setting the accuracy
     [locationmanager requestAlwaysAuthorization];
     [_mappa setShowsUserLocation:YES];
-    [_mappa setZoomEnabled:YES];
     [self percorso];
     
     
@@ -126,6 +132,23 @@
     renderer.lineWidth = 4.0;
     return  renderer;
 }
+- (IBAction)Chiama:(UITapGestureRecognizer *)sender {
+    //Telefono, la vostra applicazione andrà in background per lasciare spazio al telefono
+    NSLog(@"%@",@"ECCOMI");
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"tel://",self.Telefono.text]]];
+}
+- (IBAction)SendEmail:(UITapGestureRecognizer *)sender {
+    //Mail, la vostra applicazione si chiuderà passando tutti i parametri ed eventuali allegati a mail
+    NSLog(@"%@",@"ECCOMI");
+
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@",@"mailto:",self.EMAIL.text,@"?"]]];
+
+                                                
+                                                
+    
+
+}
+
 @end
 /*_locationmanager = [[CLLocationManager alloc]init]; // initializing locationManager
  _locationmanager.delegate = self;

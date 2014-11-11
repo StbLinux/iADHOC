@@ -22,7 +22,7 @@
 @property (strong,nonatomic) NSString *PasswordId;
 @property (strong,nonatomic) NSString *DBId;
 @property (strong,nonatomic) NSString *AziendaId;
-
+@property (strong,nonatomic) NSString *OnlineId;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

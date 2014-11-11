@@ -12,13 +12,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="BHL-fm-JL3">
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="J02-94-eCH">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <items>
-                                <navigationItem title="Anagrafica Clienti" id="xph-zk-J0k"/>
-                            </items>
-                        </navigationBar>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="ra7-Ky-jss" id="N1d-GA-AqU"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="ZoomClienti" rowHeight="84" id="L5V-s8-fwl" customClass="ZoomCli">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="93"/>
@@ -60,10 +61,20 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Clienti" id="9tk-CD-Fzk"/>
                     <connections>
+                        <outlet property="searchDisplayController" destination="v4l-vi-ZL3" id="1Zp-uo-thX"/>
                         <segue destination="WFx-GK-5Oh" kind="showDetail" identifier="DettaglioClienti" id="1wf-7A-RXw"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l6e-gr-bB3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="v4l-vi-ZL3">
+                    <connections>
+                        <outlet property="delegate" destination="ra7-Ky-jss" id="qjw-3D-rLx"/>
+                        <outlet property="searchBar" destination="J02-94-eCH" id="Zkc-nG-qmw"/>
+                        <outlet property="searchContentsController" destination="ra7-Ky-jss" id="pEk-RK-1ZE"/>
+                        <outlet property="searchResultsDataSource" destination="ra7-Ky-jss" id="Vqx-Oy-VBx"/>
+                        <outlet property="searchResultsDelegate" destination="ra7-Ky-jss" id="df2-0q-DvL"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="913" y="940"/>
         </scene>
@@ -127,17 +138,25 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qe6-zy-zvA">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qe6-zy-zvA">
                                 <rect key="frame" x="41" y="208" width="328" height="21"/>
+                                <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="kcr-Jm-f2C" appends="YES" id="kVP-mV-VDz"/>
+                                </connections>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Telefono" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGv-Og-zXI">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Telefono" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yGv-Og-zXI">
                                 <rect key="frame" x="41" y="179" width="376" height="21"/>
+                                <gestureRecognizers/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="cZK-Sc-Kng" appends="YES" id="0Ll-EB-gI2"/>
+                                </connections>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DATI ANAGRAFICI" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HIE-Qw-XzX">
                                 <rect key="frame" x="16" y="52" width="143" height="21"/>
@@ -147,6 +166,7 @@
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Telefono.png" translatesAutoresizingMaskIntoConstraints="NO" id="hUA-Gj-9MD">
                                 <rect key="frame" x="2" y="174" width="29" height="26"/>
+                                <gestureRecognizers/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="email.png" translatesAutoresizingMaskIntoConstraints="NO" id="3tF-fA-gJt">
                                 <rect key="frame" x="1" y="207" width="31" height="24"/>
@@ -175,6 +195,18 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bgI-9A-gtX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="cZK-Sc-Kng">
+                    <connections>
+                        <action selector="Chiama:" destination="WFx-GK-5Oh" id="VzB-r0-h8I"/>
+                        <outlet property="delegate" destination="yGv-Og-zXI" id="YIC-2l-3yc"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="kcr-Jm-f2C">
+                    <connections>
+                        <action selector="SendEmail:" destination="WFx-GK-5Oh" id="RBY-40-ga3"/>
+                        <outlet property="delegate" destination="qe6-zy-zvA" id="zO2-lU-0kF"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1927" y="1162"/>
         </scene>

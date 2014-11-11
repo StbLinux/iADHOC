@@ -10,13 +10,11 @@
 #import "SQLClient.h"
 #import"AppDelegate.h"
 @interface Clienti : UITableViewController <SQLClientDelegate>
-{
-   
-   NSArray *tablesource;
-   // NSArray *elements;
-    
-   
-}
 
+@property (nonatomic,strong) NSArray *tablesource;
+   // NSArray *elements;
+@property (nonatomic,strong)   NSMutableArray *searchResults;
+   
 -(void)EstrapolaDati:(NSString*) SQLstring;
+-(void)loadData;
 @end

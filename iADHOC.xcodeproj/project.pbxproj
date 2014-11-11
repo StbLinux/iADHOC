@@ -31,6 +31,9 @@
 		B76A27A91A0AEE8F003E1728 /* ahr_a.png in Resources */ = {isa = PBXBuildFile; fileRef = B76A27A81A0AEE8F003E1728 /* ahr_a.png */; };
 		B76A27AB1A0AEEE8003E1728 /* ad_hoc_revolution.gif in Resources */ = {isa = PBXBuildFile; fileRef = B76A27AA1A0AEEE8003E1728 /* ad_hoc_revolution.gif */; };
 		B772087E1A0EC3330010F776 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B772087D1A0EC3330010F776 /* Settings.bundle */; };
+		B7E3A2A91A12020700416517 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7E3A2A81A12020700416517 /* libsqlite3.dylib */; };
+		B7E3A2AC1A12027700416517 /* DBmanager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E3A2AB1A12027700416517 /* DBmanager.m */; };
+		B7E3A2B01A121CA500416517 /* AHR.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = B7E3A2AF1A121CA500416517 /* AHR.sqlite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +95,10 @@
 		B76A27A81A0AEE8F003E1728 /* ahr_a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ahr_a.png; sourceTree = "<group>"; };
 		B76A27AA1A0AEEE8003E1728 /* ad_hoc_revolution.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = ad_hoc_revolution.gif; sourceTree = "<group>"; };
 		B772087D1A0EC3330010F776 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		B7E3A2A81A12020700416517 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		B7E3A2AA1A12027700416517 /* DBmanager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBmanager.h; sourceTree = "<group>"; };
+		B7E3A2AB1A12027700416517 /* DBmanager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBmanager.m; sourceTree = "<group>"; };
+		B7E3A2AF1A121CA500416517 /* AHR.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = AHR.sqlite; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7E3A2A91A12020700416517 /* libsqlite3.dylib in Frameworks */,
 				B7478EE21A0E544D00BD4B8F /* CoreLocation.framework in Frameworks */,
 				B7478EE01A0E50C900BD4B8F /* MapKit.framework in Frameworks */,
 				B7248B021A0A191F00819B06 /* libiconv.dylib in Frameworks */,
@@ -119,6 +127,7 @@
 		B7248AAA1A0A182E00819B06 = {
 			isa = PBXGroup;
 			children = (
+				B7E3A2A81A12020700416517 /* libsqlite3.dylib */,
 				B7478EE11A0E544D00BD4B8F /* CoreLocation.framework */,
 				B7478EDF1A0E50C900BD4B8F /* MapKit.framework */,
 				B7248B011A0A191F00819B06 /* libiconv.dylib */,
@@ -148,7 +157,10 @@
 				B76A27A51A0AEC2D003E1728 /* ZoomFor.h */,
 				B76A27A61A0AEC2D003E1728 /* ZoomFor.m */,
 				B76A27A21A0AE653003E1728 /* Fornitori.h */,
+				B7E3A2AA1A12027700416517 /* DBmanager.h */,
+				B7E3A2AB1A12027700416517 /* DBmanager.m */,
 				B76A27A31A0AE653003E1728 /* Fornitori.m */,
+				B7E3A2AF1A121CA500416517 /* AHR.sqlite */,
 				B76A27AA1A0AEEE8003E1728 /* ad_hoc_revolution.gif */,
 				B76A27A81A0AEE8F003E1728 /* ahr_a.png */,
 				B7478EDD1A0E489800BD4B8F /* contact3.png */,
@@ -301,6 +313,7 @@
 				B7248AC51A0A182E00819B06 /* Main.storyboard in Resources */,
 				B7478EDA1A0E457000BD4B8F /* Telefono.png in Resources */,
 				B7248ACA1A0A182E00819B06 /* LaunchScreen.xib in Resources */,
+				B7E3A2B01A121CA500416517 /* AHR.sqlite in Resources */,
 				B7248AC71A0A182E00819B06 /* Images.xcassets in Resources */,
 				B76A27A91A0AEE8F003E1728 /* ahr_a.png in Resources */,
 				B76A27AB1A0AEEE8003E1728 /* ad_hoc_revolution.gif in Resources */,
@@ -330,6 +343,7 @@
 				B7321EB91A0D5F5A0089B2D1 /* DettaglioClienti.m in Sources */,
 				B76A27A71A0AEC2D003E1728 /* ZoomFor.m in Sources */,
 				B7248ABC1A0A182E00819B06 /* AppDelegate.m in Sources */,
+				B7E3A2AC1A12027700416517 /* DBmanager.m in Sources */,
 				B7248B001A0A18CE00819B06 /* SQLClient.m in Sources */,
 				B76A27A41A0AE653003E1728 /* Fornitori.m in Sources */,
 				B76A279E1A0ACFF8003E1728 /* ZoomCli.m in Sources */,

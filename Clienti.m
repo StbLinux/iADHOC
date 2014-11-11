@@ -10,33 +10,42 @@
 #import "SQLClient.h"
 #import "ZoomCli.h"
 #import "ANACLI.h"
+#import "DBmanager.h"
 #import "DettaglioClienti.h"
 
-@interface Clienti ()
+@interface Clienti ()<UISearchDisplayDelegate,UISearchControllerDelegate>
 @property (strong, nonatomic) IBOutlet UISearchBar *CercaBar;
-
+@property (strong,nonatomic) DBmanager *dbManager;
 @end
 
 @implementation Clienti{
     ANACLI *anacli;
-    NSArray *searchResults;
+    
     
     
    }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
-    
-    NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ANCODICE, ANDESCRI,ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='C' order by ANDESCRI"];
-    [self EstrapolaDati:SQLState];
-    
+    // Initialize the dbManager object.
+        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    if (mainDelegate.OnlineId.boolValue==1) {
+        NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ANCODICE, ANDESCRI,ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='C' order by ANDESCRI"];
+        [self EstrapolaDati:SQLState];
+
+    }
+    else {
+        self.dbManager = [[DBmanager alloc] initWithDatabaseFilename:@"AHR.sqlite"];
+        [self loadData];
+    }
+        
    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.searchResults = [NSMutableArray arrayWithCapacity:[self.tablesource count]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,38 +64,62 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete method implementation.
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        return [self.searchResults count];
+    }
+    else
+    {
+        return [self.tablesource count];
+    }
     // Return the number of rows in the section.
    // return [elements count];
-    return [tablesource count];
+    //return [tablesource count];
     //return 4;
 }
-
+/*
+ 
+ 
+ 
+ */
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+
     static NSString *ZoomClienti=@"ZoomClienti";
     ZoomCli *cell =(ZoomCli *)[tableView dequeueReusableCellWithIdentifier:ZoomClienti forIndexPath:indexPath];
 
-
-    /*UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ZoomClienti forIndexPath:indexPath];*/
-    
-    // Configure the cell...
     if(cell==nil) {;
         cell=[[ZoomCli alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ZoomClienti];
     }
-    //[cell.codice setText:[keyArray objectAtIndex:indexPath.row]];
-  //  NSLog(@"%@",[keyArray objectAtIndex:indexPath.row]);
-    //[cell.textLabel setText:@"pippo"];
-    //ragione=[valueArray objectAtIndex:indexPath.row];
-   //[cell.ragsoc setText:[ragione substringToIndex:[ragione rangeOfString:@"-"].location-1]];
-    ANACLI *clienti = [tablesource objectAtIndex:indexPath.row];
-    cell.codice.text=clienti.codice;
-    cell.ragsoc.text=clienti.ragsoc;
-    cell.indiri.text=clienti.paese;
+    if (mainDelegate.OnlineId.boolValue==1) {
+        ANACLI *clienti = [self.tablesource objectAtIndex:indexPath.row];
+        cell.codice.text=clienti.codice;
+        cell.ragsoc.text=clienti.ragsoc;
+        cell.indiri.text=clienti.paese;
+    } else {
+        
+        NSInteger indexOfcodice = [self.dbManager.arrColumnNames indexOfObject:@"ANCODICE"];
+        NSLog(@"@%ld",(long)indexOfcodice);
+        NSInteger indexOfragsoc = [self.dbManager.arrColumnNames indexOfObject:@"ANDESCRI"];
+        NSInteger indexOfpaese = [self.dbManager.arrColumnNames indexOfObject:@"ANLOCALI"];
+        
+        // Set the loaded data to the appropriate cell labels.
+        
+        
+        cell.codice.text = [NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:indexPath.row] objectAtIndex:indexOfcodice]];
+        cell.ragsoc.text = [NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:indexPath.row] objectAtIndex:indexOfragsoc]];
+        cell.indiri.text = [NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:indexPath.row] objectAtIndex:indexOfpaese]];
+    }
+    
 
-   // [cell.indiri setText:[ragione substringFromIndex:[ragione rangeOfString:@"-"].location+2]];
-   // [cell.ragsoc setText:[valueArray ob]];
-    //cell.textLabel.text = [elements objectAtIndex:indexPath.row];
-       return cell;
+
+
+    
+    
+    
+    
+    return cell;
 }
 
 
@@ -133,29 +166,61 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    ANACLI *cliente_stru=[[ANACLI alloc]init];
-    if ([segue.identifier isEqualToString:@"DettaglioClienti"])
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+        if ([segue.identifier isEqualToString:@"DettaglioClienti"])
         
     {
-        
         DettaglioClienti *DetCli = [segue destinationViewController];
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-        cliente_stru=[tablesource objectAtIndex:selectedIndexPath.row];
-        //NSLog(@"%@",[keyArray objectAtIndex:selectedIndexPath.row]);
-        DetCli.pCodiceCliente=cliente_stru.codice;
-        DetCli.pRagsoc=cliente_stru.ragsoc;
-        DetCli.pPaese=cliente_stru.paese;
-        DetCli.pCap=cliente_stru.cap;
-        DetCli.pProvincia=cliente_stru.provincia;
-        DetCli.pTelefono=cliente_stru.telefono;
-        DetCli.pIndirizzo=cliente_stru.indirizzo;
-        DetCli.pEMAIL=cliente_stru.email;
-        DetCli.pcodpag=cliente_stru.codpag;
-    }
-    
 
+        if (mainDelegate.OnlineId.boolValue==1) {
+                        ANACLI *cliente_stru=[[ANACLI alloc]init];
+            cliente_stru=[self.tablesource objectAtIndex:selectedIndexPath.row];
+                       //NSLog(@"%@",[keyArray objectAtIndex:selectedIndexPath.row]);
+            DetCli.pCodiceCliente=cliente_stru.codice;
+            DetCli.pRagsoc=cliente_stru.ragsoc;
+            DetCli.pPaese=cliente_stru.paese;
+            DetCli.pCap=cliente_stru.cap;
+            DetCli.pProvincia=cliente_stru.provincia;
+            DetCli.pTelefono=cliente_stru.telefono;
+            DetCli.pIndirizzo=cliente_stru.indirizzo;
+            DetCli.pEMAIL=cliente_stru.email;
+            DetCli.pcodpag=cliente_stru.codpag;
+        } else {
+           // NSLog(@"%@",self.tablesource);
+            NSInteger indexOfcodice =1;
+            NSInteger indexOfragsoc =2;
+            NSInteger indexOfindiri =3;
+            NSInteger indexOfcap = 4;
+            NSInteger indexOfpaese =5;
+            NSInteger indexOfprovincia =6;
+            NSInteger indexOftelefono =8;
+            NSInteger indexOfemail =10;
+           //   NSInteger indexOfpagamento =
+             DetCli.pCodiceCliente=[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfcodice]];
+           DetCli.pRagsoc=[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfragsoc]];
+              DetCli.pIndirizzo=[NSString stringWithFormat:@"%@",[[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfcodice]];
+         //   NSLog(@"%@",[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfpaese]]);
+            DetCli.pPaese=[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfpaese]];
+            DetCli.pCap=[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfcap]];
+          
+           DetCli.pProvincia=[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfprovincia]];
+           DetCli.pTelefono=[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOftelefono]];
+         //   NSLog(@"%@",[self.tablesource objectAtIndex:selectedIndexPath.row]);
+           
+                        NSLog(@"%@",self.dbManager.arrResults);
+            DetCli.pIndirizzo=[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfindiri]];
+            DetCli.pEMAIL=[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfemail]];
+           // DetCli.pcodpag=[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfpagamento]];
+
+        }
+        
+
+        
+      
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+}
 }
 
 /*-(void)EstrapolaDati:(NSString*)SQLstring{
@@ -252,18 +317,23 @@
                      }
     
             
-    tablesource=tbsource;
+    self.tablesource=tbsource;
     
     
   
     [self.tableView reloadData];
     
 }
-/*- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
-    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", searchText];
-    searchResults = [recipes filteredArrayUsingPredicate:resultPredicate];
-}*/
+    [self.searchResults removeAllObjects];
+    NSLog(@"%@",searchText);
+    NSPredicate *resultPredicate = [NSPredicate
+            predicateWithFormat:@"codice == %@", searchText];
+    
+    self.searchResults = [NSMutableArray arrayWithArray: [self.tablesource filteredArrayUsingPredicate:resultPredicate]];
+    NSLog(@"%@",self.searchResults);
+}
 #pragma mark - SQLClientDelegate
 
 //Required
@@ -277,6 +347,19 @@
 - (void)message:(NSString*)message
 {
     NSLog(@"Message: %@", message);
+}
+-(void)loadData{
+    // Form the query.
+    NSString *query = @"select * from CONTI";
+    
+    // Get the results.
+    if (self.tablesource != nil) {
+        self.tablesource = nil;
+    }
+    self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+    
+    // Reload the table view.
+    [self.tableView reloadData];
 }
 
 @end
