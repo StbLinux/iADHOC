@@ -123,6 +123,22 @@
     renderer.lineWidth = 4.0;
     return  renderer;
 }
+- (IBAction)Chiama:(UITapGestureRecognizer *)sender {
+    //Telefono, la vostra applicazione andrà in background per lasciare spazio al telefono
+    NSLog(@"%@",@"ECCOMI");
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"tel://",self.telefono.text]]];
+}
+- (IBAction)SendEmail:(UITapGestureRecognizer *)sender {
+    //Mail, la vostra applicazione si chiuderà passando tutti i parametri ed eventuali allegati a mail
+    NSLog(@"%@",@"ECCOMI");
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@%@",@"mailto:",self.email.text,@"?"]]];
+    
+    
+    
+    
+    
+}
 
 
 @end

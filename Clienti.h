@@ -13,10 +13,10 @@
 
 @property (nonatomic) NSArray *tablesource;
 
+
 // NSArray *elements;
 @property (strong, nonatomic) IBOutlet UISearchBar *SearchBar;
 @property (nonatomic,strong) UIActivityIndicatorView *spinner;
-
 -(void)EstrapolaDati:(NSString*) SQLstring;
 -(void)loadData;
 @end

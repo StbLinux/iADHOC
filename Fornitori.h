@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "SQLClient.h"
 #import "AppDelegate.h"
-@interface Fornitori : UITableViewController <SQLClientDelegate>
-{
-    NSArray *tablesource;
-    // NSArray *elements;
+@interface Fornitori : UITableViewController <SQLClientDelegate,UISearchBarDelegate>
 
-}
+@property (nonatomic) NSArray *tablesource;
+
+@property (strong, nonatomic) IBOutlet UISearchBar *SearchBar;
+@property (nonatomic,strong) UIActivityIndicatorView *spinner;
 -(void)EstrapolaDati:(NSString*) SQLstring;;
 
 
