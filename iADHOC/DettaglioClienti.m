@@ -18,6 +18,13 @@
 @end
 
 @implementation DettaglioClienti
+-(void) viewWillAppear:(BOOL)animated{
+    _locationmanager = [CLLocationManager new]; // initializing locationManager
+    _locationmanager.delegate = self;
+    _locationmanager.desiredAccuracy = kCLLocationAccuracyBest; // setting the accuracy
+    [_locationmanager requestWhenInUseAuthorization];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
    /* UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]
@@ -38,10 +45,7 @@
     _Provincia.text=_pProvincia;
     _Telefono.text=_pTelefono;
     _mappa.delegate=self;
-    CLLocationManager    *locationmanager = [CLLocationManager new]; // initializing locationManager
-    locationmanager.delegate = self;
-    locationmanager.desiredAccuracy = kCLLocationAccuracyBest; // setting the accuracy
-    [locationmanager requestAlwaysAuthorization];
+   
     [_mappa setShowsUserLocation:YES];
     [self percorso];
     
@@ -55,11 +59,13 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+    NSLog(@"%@",@"updateuserlocation");
     MKCoordinateRegion mapRegion;
     mapRegion.center = _mappa.userLocation.coordinate;
-    mapRegion.span = MKCoordinateSpanMake(0.4, 0.4);
+    mapRegion.span = MKCoordinateSpanMake(0.1, 0.15);
     [_mappa setRegion:mapRegion animated: YES];
 }
+
 #pragma mark - Navigation
 /*
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -73,6 +79,7 @@
 
 }
 -(void)percorso {
+   
    // NSString *location = @"some address, state, and zip";
     NSString *location = [NSString stringWithFormat:@"%@%@%@%@%@",_Paese.text,@",",_Indirizzo.text,@",",_Cap.text];
         CLGeocoder *geocoder = [[CLGeocoder alloc] init];

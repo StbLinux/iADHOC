@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1ir-ev-HsY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B23" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1ir-ev-HsY">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
@@ -12,13 +12,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="J02-94-eCH">
+                        <searchBar key="tableHeaderView" contentMode="redraw" showsCancelButton="YES" id="uAE-CN-Zm7">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
-                            <connections>
-                                <outlet property="delegate" destination="ra7-Ky-jss" id="N1d-GA-AqU"/>
-                            </connections>
+                            <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                         </searchBar>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="ZoomClienti" rowHeight="84" id="L5V-s8-fwl" customClass="ZoomCli">
@@ -27,12 +24,6 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="L5V-s8-fwl" id="b4o-nQ-Zte">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Codice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6BL-UI-obW">
-                                            <rect key="frame" x="8" y="0.0" width="74" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ragione sociale" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8nZ-ph-nuN">
                                             <rect key="frame" x="8" y="29" width="579" height="19"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -42,6 +33,12 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Indirizzo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gaW-Gv-iaf">
                                             <rect key="frame" x="8" y="56" width="475" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Codice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6BL-UI-obW">
+                                            <rect key="frame" x="8" y="0.0" width="74" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -61,22 +58,13 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Clienti" id="9tk-CD-Fzk"/>
                     <connections>
-                        <outlet property="searchDisplayController" destination="v4l-vi-ZL3" id="1Zp-uo-thX"/>
+                        <outlet property="SearchBar" destination="uAE-CN-Zm7" id="Agc-Tb-IDr"/>
                         <segue destination="WFx-GK-5Oh" kind="showDetail" identifier="DettaglioClienti" id="1wf-7A-RXw"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l6e-gr-bB3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="v4l-vi-ZL3">
-                    <connections>
-                        <outlet property="delegate" destination="ra7-Ky-jss" id="qjw-3D-rLx"/>
-                        <outlet property="searchBar" destination="J02-94-eCH" id="Zkc-nG-qmw"/>
-                        <outlet property="searchContentsController" destination="ra7-Ky-jss" id="pEk-RK-1ZE"/>
-                        <outlet property="searchResultsDataSource" destination="ra7-Ky-jss" id="Vqx-Oy-VBx"/>
-                        <outlet property="searchResultsDelegate" destination="ra7-Ky-jss" id="df2-0q-DvL"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="913" y="940"/>
+            <point key="canvasLocation" x="953" y="784"/>
         </scene>
         <!--Dettaglio Clienti-->
         <scene sceneID="gmz-OR-6px">
@@ -121,9 +109,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JQF-jN-qqW">
-                                <rect key="frame" x="0.0" y="8" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
-                                    <navigationItem title="Title" id="sYo-qD-9xQ">
+                                    <navigationItem title="Dettaglio clienti" id="sYo-qD-9xQ">
                                         <barButtonItem key="leftBarButtonItem" title="Indietro" id="LEh-01-rQU">
                                             <connections>
                                                 <action selector="Indietro:" destination="WFx-GK-5Oh" id="qpP-MP-78B"/>
@@ -158,12 +146,6 @@
                                     <outletCollection property="gestureRecognizers" destination="cZK-Sc-Kng" appends="YES" id="0Ll-EB-gI2"/>
                                 </connections>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DATI ANAGRAFICI" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HIE-Qw-XzX">
-                                <rect key="frame" x="16" y="52" width="143" height="21"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Telefono.png" translatesAutoresizingMaskIntoConstraints="NO" id="hUA-Gj-9MD">
                                 <rect key="frame" x="2" y="174" width="29" height="26"/>
                                 <gestureRecognizers/>
@@ -174,9 +156,15 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="contact3.png" translatesAutoresizingMaskIntoConstraints="NO" id="psr-j2-RxS">
                                 <rect key="frame" x="1" y="116" width="27" height="26"/>
                             </imageView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="egj-La-Jzt">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="egj-La-Jzt">
                                 <rect key="frame" x="2" y="333" width="373" height="267"/>
                             </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DATI ANAGRAFICI" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HIE-Qw-XzX">
+                                <rect key="frame" x="-3" y="64" width="143" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

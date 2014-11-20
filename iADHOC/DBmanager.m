@@ -48,6 +48,9 @@
             NSLog(@"%@", [error localizedDescription]);
         }
     }
+    else {
+        NSLog(@"%s","esistE gia");
+    }
 }
 -(void)runQuery:(const char *)query isQueryExecutable:(BOOL)queryExecutable{
     // Create a sqlite object.

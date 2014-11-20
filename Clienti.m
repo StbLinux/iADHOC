@@ -13,20 +13,24 @@
 #import "DBmanager.h"
 #import "DettaglioClienti.h"
 
-@interface Clienti ()<UISearchDisplayDelegate,UISearchControllerDelegate>
-@property (strong, nonatomic) IBOutlet UISearchBar *CercaBar;
+@interface Clienti ()
 @property (strong,nonatomic) DBmanager *dbManager;
 @end
 
 @implementation Clienti{
     ANACLI *anacli;
-    
+    BOOL primasincro;
     
     
    }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+#if TARGET_IPHONE_SIMULATOR
+    // where are you?
+    NSLog(@"Documents Directory: %@", [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
+#endif
+     self.SearchBar.delegate = self;
     // Initialize the dbManager object.
         AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     if (mainDelegate.OnlineId.boolValue==1) {
@@ -35,17 +39,36 @@
 
     }
     else {
+        
         self.dbManager = [[DBmanager alloc] initWithDatabaseFilename:@"AHR.sqlite"];
-        [self loadData];
-    }
+           NSString *query = @"select ANTIPCON,ANCODICE,ANDESCRI,ANDESCR2,ANINDIRI,ANINDIRI2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL from CONTI where ANTIPCON='C'";
+         
+         // Get the results.
+        
+         self.tablesource = nil;
+     
+         self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+        
+        if ([self.tablesource count]==0) {
+            primasincro=true;
+            _spinner = [[UIActivityIndicatorView alloc]
+                                                initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            _spinner.center = CGPointMake(160, 240);
+            _spinner.hidesWhenStopped = YES;
+          
+         
+            [self.view addSubview:_spinner];
+          
+            [_spinner startAnimating];
+            [self loadData];
+            
+            
+        }
+        
+          }
         
    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.searchResults = [NSMutableArray arrayWithCapacity:[self.tablesource count]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,20 +86,18 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    if (tableView == self.searchDisplayController.searchResultsTableView)
-    {
-        return [self.searchResults count];
+   
+   
+         return [self.tablesource count];
+   
     }
-    else
-    {
-        return [self.tablesource count];
-    }
+   
+   
     // Return the number of rows in the section.
    // return [elements count];
     //return [tablesource count];
     //return 4;
-}
+
 /*
  
  
@@ -88,29 +109,37 @@
 
     static NSString *ZoomClienti=@"ZoomClienti";
     ZoomCli *cell =(ZoomCli *)[tableView dequeueReusableCellWithIdentifier:ZoomClienti forIndexPath:indexPath];
-
+    
     if(cell==nil) {;
         cell=[[ZoomCli alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ZoomClienti];
     }
     if (mainDelegate.OnlineId.boolValue==1) {
-        ANACLI *clienti = [self.tablesource objectAtIndex:indexPath.row];
+        ANACLI *clienti= [self.tablesource objectAtIndex:indexPath.row];
+       
         cell.codice.text=clienti.codice;
         cell.ragsoc.text=clienti.ragsoc;
         cell.indiri.text=clienti.paese;
     } else {
         
-        NSInteger indexOfcodice = [self.dbManager.arrColumnNames indexOfObject:@"ANCODICE"];
-        NSLog(@"@%ld",(long)indexOfcodice);
-        NSInteger indexOfragsoc = [self.dbManager.arrColumnNames indexOfObject:@"ANDESCRI"];
-        NSInteger indexOfpaese = [self.dbManager.arrColumnNames indexOfObject:@"ANLOCALI"];
         
-        // Set the loaded data to the appropriate cell labels.
+            NSInteger indexOfcodice = [self.dbManager.arrColumnNames indexOfObject:@"ANCODICE"];
+            NSLog(@"@%ld",(long)indexOfcodice);
+            NSInteger indexOfragsoc = 2;
+            NSInteger indexOfpaese = 4;
+            
+            // Set the loaded data to the appropriate cell labels.
+            cell.codice.text = [NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:indexPath.row] objectAtIndex:indexOfcodice]];
+            NSLog(@"%@",[[self.tablesource objectAtIndex:indexPath.row] objectAtIndex:3]);
+            cell.ragsoc.text = [NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:indexPath.row] objectAtIndex:indexOfragsoc]];
+            cell.indiri.text = [NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:indexPath.row] objectAtIndex:indexOfpaese]];
+            
+            
+
+        
+     
         
         
-        cell.codice.text = [NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:indexPath.row] objectAtIndex:indexOfcodice]];
-        cell.ragsoc.text = [NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:indexPath.row] objectAtIndex:indexOfragsoc]];
-        cell.indiri.text = [NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:indexPath.row] objectAtIndex:indexOfpaese]];
-    }
+            }
     
 
 
@@ -123,13 +152,16 @@
 }
 
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self performSegueWithIdentifier:@"DettaglioClienti" sender:nil];
+
+}
 
 /*
 // Override to support editing the table view.
@@ -157,7 +189,7 @@
 }
 */
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:@"DettaglioClienti" sender:nil];
+    
     
     
 }
@@ -190,12 +222,12 @@
            // NSLog(@"%@",self.tablesource);
             NSInteger indexOfcodice =1;
             NSInteger indexOfragsoc =2;
-            NSInteger indexOfindiri =3;
-            NSInteger indexOfcap = 4;
-            NSInteger indexOfpaese =5;
-            NSInteger indexOfprovincia =6;
-            NSInteger indexOftelefono =8;
-            NSInteger indexOfemail =10;
+            NSInteger indexOfindiri =4;
+            NSInteger indexOfcap = 6;
+            NSInteger indexOfpaese =7;
+            NSInteger indexOfprovincia =8;
+            NSInteger indexOftelefono =10;
+            NSInteger indexOfemail =19;
            //   NSInteger indexOfpagamento =
              DetCli.pCodiceCliente=[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfcodice]];
            DetCli.pRagsoc=[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfragsoc]];
@@ -222,23 +254,6 @@
     // Pass the selected object to the new view controller.
 }
 }
-
-/*-(void)EstrapolaDati:(NSString*)SQLstring{
-    SQLClient* client = [SQLClient sharedInstance];
-    client.delegate = self;
-    [client connect:@"81.174.32.50:1433" username:@"sa" password:@"Soft2%milA" database:@"AHR70" completion:^(BOOL success) {
-        if (success)
-        {
-            [client execute:SQLstring completion:^(NSArray* results) {
-                [self PopolaTabella:results];
-                [client disconnect];
-            }];
-        }
-        
-    }];
- 
-    
-}*/
 -(void)EstrapolaDati:(NSString*)SQLstring{
     SQLClient* client = [SQLClient sharedInstance];
     client.delegate = self;
@@ -316,24 +331,20 @@
          
                      }
     
-            
+    
     self.tablesource=tbsource;
+    if (primasincro==true) {
+          [self salvaclientisqlite];
+    }
+    else {
+        [self.tableView reloadData];
+    }
+   
     
     
-  
-    [self.tableView reloadData];
     
 }
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
-{
-    [self.searchResults removeAllObjects];
-    NSLog(@"%@",searchText);
-    NSPredicate *resultPredicate = [NSPredicate
-            predicateWithFormat:@"codice == %@", searchText];
-    
-    self.searchResults = [NSMutableArray arrayWithArray: [self.tablesource filteredArrayUsingPredicate:resultPredicate]];
-    NSLog(@"%@",self.searchResults);
-}
+
 #pragma mark - SQLClientDelegate
 
 //Required
@@ -349,17 +360,123 @@
     NSLog(@"Message: %@", message);
 }
 -(void)loadData{
-    // Form the query.
-    NSString *query = @"select * from CONTI";
-    
-    // Get the results.
-    if (self.tablesource != nil) {
-        self.tablesource = nil;
+   
+    NSLog(@"%@",@"sono qui");
+      if (primasincro==true) {
+        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+        
+        NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ANTIPCON,ANCODICE, ANDESCRI,ANDESCR2,ANINDIRI,ANINDIR2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='C' order by ANDESCRI"];
+        [self EstrapolaDati:SQLState];
+        
+        
+        
+        
+        [self.tableView reloadData];
+
     }
-    self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+    else {
+        [self.tableView reloadData];
+
+    }
     
-    // Reload the table view.
+    
+   }
+-(void) salvaclientisqlite{
+    
+    NSInteger nrecord=[_tablesource count];
+    NSLog(@"%li%@",_tablesource.count,@"nrecord");
+    NSLog(@"%@",_tablesource);
+    NSInteger i=0;
+    
+      while (i<nrecord) {
+          
+          ANACLI *clienti=[[ANACLI alloc]init];
+          clienti=[_tablesource objectAtIndex:i];
+          NSString *ragionesociale=clienti.ragsoc;
+          ragionesociale = [ragionesociale stringByReplacingOccurrencesOfString:@"'"
+                                               withString:@" "];
+          
+         
+        NSString *query = [NSString stringWithFormat:@"insert into conti values('%@','%@','%@','%@', '%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@')", @"C",clienti.codice,ragionesociale,@"",clienti.indirizzo,@"",clienti.cap,clienti.paese,@"BS",@"IT",clienti.telefono,@"",@"",@"",@"",@"",clienti.codpag,@"",@"",clienti.email];
+          NSLog(@"%@",query);
+        // Execute the query.
+        [self.dbManager executeQuery:query];
+        
+        // If the query was successfully executed then pop the view controller.
+        if (self.dbManager.affectedRows != 0) {
+            NSLog(@"Query was executed successfully. Affected rows = %d", self.dbManager.affectedRows);
+            
+            // Pop the view controller.
+            
+        }
+        else {
+            NSLog(@"PROBLEM Affected rows = %d", self.dbManager.affectedRows);
+        }
+        i+=1;
+   
+    }
+       NSString *query = @"select ANTIPCON,ANCODICE,ANDESCRI,ANDESCR2,ANINDIRI,ANINDIRI2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL from CONTI where ANTIPCON='C'";
+     
+     // Get the results.
+         self.tablesource = nil;
+ 
+     self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
     [self.tableView reloadData];
+    primasincro=false;
+    [_spinner stopAnimating];
+   
+    }
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self cerca:searchBar];
+}
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    [self cerca:searchBar];
+}
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    if (mainDelegate.OnlineId.boolValue==1) {
+        NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ANTIPCON,ANCODICE, ANDESCRI,ANDESCR2,ANINDIRI,ANINDIR2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='C' order by ANDESCRI"];
+       // NSLog(@"%@",SQLState);
+        [self EstrapolaDati:SQLState];
+       
+}
+    else {
+        NSString *query = @"select ANTIPCON,ANCODICE,ANDESCRI,ANDESCR2,ANINDIRI,ANINDIRI2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL from CONTI where ANTIPCON='C'";
+        
+        // Get the results.
+        
+        self.tablesource = nil;
+        
+        self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+        
+        
+    }
+    
+    [self.tableView reloadData];
+    [searchBar resignFirstResponder];
+
 }
 
+-(void)cerca:(UISearchBar *)searchBar {
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    if (mainDelegate.OnlineId.boolValue==1) {
+        NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@%@%@%@",@"SELECT ANTIPCON,ANCODICE, ANDESCRI,ANDESCR2,ANINDIRI,ANINDIR2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='C' and ANDESCRI LIKE '%",searchBar.text,@"%' ",@"order by ANDESCRI"];
+        // NSLog(@"%@",SQLState);
+        [self EstrapolaDati:SQLState];
+
+    }
+    else {
+        
+        NSString *query =[NSString stringWithFormat:@"%@%@%@",@"select ANTIPCON,ANCODICE,ANDESCRI,ANDESCR2,ANINDIRI,ANINDIRI2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL from CONTI where ANTIPCON='C' and ANDESCRI LIKE '%",searchBar.text,@"%'"];
+       
+        // Get the results.
+        
+        self.tablesource = nil;
+        
+        self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+    }
+        [searchBar resignFirstResponder];
+       [self.tableView reloadData];
+    
+}
 @end

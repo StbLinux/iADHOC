@@ -8,7 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ANACLI : NSObject
+@interface ANACLI : NSObject{
+    NSString *codice; // codice cliente
+    NSString *ragsoc; // ragione sociale
+    NSString *paese; // Paese
+    NSString *indirizzo; //
+     NSString *cap; //
+    NSString *provincia; //
+    NSString *telefono; //
+  NSString *email; //
+NSString *codpag; //
+    
+}
 
 @property (nonatomic, strong) NSString *codice; // codice cliente
 @property (nonatomic, strong) NSString *ragsoc; // ragione sociale

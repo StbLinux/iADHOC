@@ -31,7 +31,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *EMAIL;
 
 @property (strong, nonatomic) IBOutlet MKMapView *mappa;
-
+@property (strong,nonatomic)  CLLocationManager    *locationmanager;
 
 
 
