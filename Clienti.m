@@ -18,7 +18,7 @@
 @end
 
 @implementation Clienti{
-    ANACLI *anacli;
+    //ANACLI *anacli;
     BOOL primasincro;
     BOOL finecaricamento;
     
@@ -80,7 +80,6 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     //return 0;
     return 1;
@@ -362,7 +361,7 @@
 }
 -(void)loadData{
    
-    NSLog(@"%@",@"sono qui");
+   // NSLog(@"%@",@"sono qui");
       if (primasincro==true) {
         AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
         

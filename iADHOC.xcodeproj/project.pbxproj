@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B701F0C21A1F4D5B008A4D01 /* Articoli.m in Sources */ = {isa = PBXBuildFile; fileRef = B701F0C11A1F4D5B008A4D01 /* Articoli.m */; };
+		B701F0C91A1F4F97008A4D01 /* ANAART.m in Sources */ = {isa = PBXBuildFile; fileRef = B701F0C81A1F4F97008A4D01 /* ANAART.m */; };
+		B701F0CC1A1F7F40008A4D01 /* ZoomArti.m in Sources */ = {isa = PBXBuildFile; fileRef = B701F0CB1A1F7F40008A4D01 /* ZoomArti.m */; };
+		B701F0CE1A1F85DE008A4D01 /* AHR.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = B701F0CD1A1F85DE008A4D01 /* AHR.sqlite */; };
 		B7248AB91A0A182E00819B06 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248AB81A0A182E00819B06 /* main.m */; };
 		B7248ABC1A0A182E00819B06 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248ABB1A0A182E00819B06 /* AppDelegate.m */; };
 		B7248AC51A0A182E00819B06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7248AC31A0A182E00819B06 /* Main.storyboard */; };
@@ -17,7 +21,6 @@
 		B7248B001A0A18CE00819B06 /* SQLClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248AF81A0A18CE00819B06 /* SQLClient.m */; };
 		B7248B021A0A191F00819B06 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B7248B011A0A191F00819B06 /* libiconv.dylib */; };
 		B7248B3F1A0A1F0800819B06 /* Clienti.m in Sources */ = {isa = PBXBuildFile; fileRef = B7248B3E1A0A1F0800819B06 /* Clienti.m */; };
-		B72855141A1A566300AB1E21 /* AHR.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = B72855131A1A566300AB1E21 /* AHR.sqlite */; };
 		B7321EB91A0D5F5A0089B2D1 /* DettaglioClienti.m in Sources */ = {isa = PBXBuildFile; fileRef = B7321EB81A0D5F5A0089B2D1 /* DettaglioClienti.m */; };
 		B7321EBC1A0D89850089B2D1 /* ANACLI.m in Sources */ = {isa = PBXBuildFile; fileRef = B7321EBB1A0D89850089B2D1 /* ANACLI.m */; };
 		B7478EDA1A0E457000BD4B8F /* Telefono.png in Resources */ = {isa = PBXBuildFile; fileRef = B7478ED91A0E457000BD4B8F /* Telefono.png */; };
@@ -47,6 +50,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B701F0C01A1F4D5B008A4D01 /* Articoli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Articoli.h; sourceTree = "<group>"; };
+		B701F0C11A1F4D5B008A4D01 /* Articoli.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Articoli.m; sourceTree = "<group>"; };
+		B701F0C71A1F4F97008A4D01 /* ANAART.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANAART.h; sourceTree = "<group>"; };
+		B701F0C81A1F4F97008A4D01 /* ANAART.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANAART.m; sourceTree = "<group>"; };
+		B701F0CA1A1F7F40008A4D01 /* ZoomArti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomArti.h; sourceTree = "<group>"; };
+		B701F0CB1A1F7F40008A4D01 /* ZoomArti.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomArti.m; sourceTree = "<group>"; };
+		B701F0CD1A1F85DE008A4D01 /* AHR.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = AHR.sqlite; sourceTree = "<group>"; };
 		B7248AB31A0A182E00819B06 /* iADHOC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iADHOC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7248AB71A0A182E00819B06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7248AB81A0A182E00819B06 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -75,7 +85,6 @@
 		B7248B011A0A191F00819B06 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		B7248B3D1A0A1F0800819B06 /* Clienti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Clienti.h; path = ../Clienti.h; sourceTree = "<group>"; };
 		B7248B3E1A0A1F0800819B06 /* Clienti.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Clienti.m; path = ../Clienti.m; sourceTree = "<group>"; };
-		B72855131A1A566300AB1E21 /* AHR.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = AHR.sqlite; sourceTree = "<group>"; };
 		B7321EB71A0D5F5A0089B2D1 /* DettaglioClienti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DettaglioClienti.h; sourceTree = "<group>"; };
 		B7321EB81A0D5F5A0089B2D1 /* DettaglioClienti.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DettaglioClienti.m; sourceTree = "<group>"; };
 		B7321EBA1A0D89850089B2D1 /* ANACLI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANACLI.h; sourceTree = "<group>"; };
@@ -124,6 +133,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B701F0C31A1F4DA5008A4D01 /* ANAGRAFICHE */ = {
+			isa = PBXGroup;
+			children = (
+				B7248B3D1A0A1F0800819B06 /* Clienti.h */,
+				B7248B3E1A0A1F0800819B06 /* Clienti.m */,
+				B76A27A21A0AE653003E1728 /* Fornitori.h */,
+				B76A27A31A0AE653003E1728 /* Fornitori.m */,
+				B7321EB71A0D5F5A0089B2D1 /* DettaglioClienti.h */,
+				B7321EB81A0D5F5A0089B2D1 /* DettaglioClienti.m */,
+				B74A10DE1A0B8B6E00C507A1 /* DettaglioFornitori.h */,
+				B74A10DF1A0B8B6E00C507A1 /* DettaglioFornitori.m */,
+				B701F0C01A1F4D5B008A4D01 /* Articoli.h */,
+				B701F0C11A1F4D5B008A4D01 /* Articoli.m */,
+			);
+			name = ANAGRAFICHE;
+			sourceTree = "<group>";
+		};
+		B701F0C41A1F4DBD008A4D01 /* NSOBJECT_TABELLE */ = {
+			isa = PBXGroup;
+			children = (
+				B7321EBA1A0D89850089B2D1 /* ANACLI.h */,
+				B7321EBB1A0D89850089B2D1 /* ANACLI.m */,
+				B701F0C71A1F4F97008A4D01 /* ANAART.h */,
+				B701F0C81A1F4F97008A4D01 /* ANAART.m */,
+			);
+			name = NSOBJECT_TABELLE;
+			sourceTree = "<group>";
+		};
+		B701F0C51A1F4DFC008A4D01 /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				B76A279C1A0ACFF8003E1728 /* ZoomCli.h */,
+				B76A279D1A0ACFF8003E1728 /* ZoomCli.m */,
+				B701F0CA1A1F7F40008A4D01 /* ZoomArti.h */,
+				B701F0CB1A1F7F40008A4D01 /* ZoomArti.m */,
+				B76A27A51A0AEC2D003E1728 /* ZoomFor.h */,
+				B76A27A61A0AEC2D003E1728 /* ZoomFor.m */,
+			);
+			name = CustomCell;
+			sourceTree = "<group>";
+		};
+		B701F0C61A1F4E14008A4D01 /* SQLITE_MANAGER */ = {
+			isa = PBXGroup;
+			children = (
+				B701F0CD1A1F85DE008A4D01 /* AHR.sqlite */,
+				B7E3A2AA1A12027700416517 /* DBmanager.h */,
+				B7E3A2AB1A12027700416517 /* DBmanager.m */,
+			);
+			name = SQLITE_MANAGER;
+			sourceTree = "<group>";
+		};
 		B7248AAA1A0A182E00819B06 = {
 			isa = PBXGroup;
 			children = (
@@ -150,31 +210,18 @@
 			isa = PBXGroup;
 			children = (
 				B7248AF01A0A18CE00819B06 /* SQLClient */,
-				B7248B3D1A0A1F0800819B06 /* Clienti.h */,
-				B7248B3E1A0A1F0800819B06 /* Clienti.m */,
-				B76A27A21A0AE653003E1728 /* Fornitori.h */,
-				B76A27A31A0AE653003E1728 /* Fornitori.m */,
-				B7321EBA1A0D89850089B2D1 /* ANACLI.h */,
-				B7321EBB1A0D89850089B2D1 /* ANACLI.m */,
-				B76A27A51A0AEC2D003E1728 /* ZoomFor.h */,
-				B76A27A61A0AEC2D003E1728 /* ZoomFor.m */,
-				B72855131A1A566300AB1E21 /* AHR.sqlite */,
-				B7E3A2AA1A12027700416517 /* DBmanager.h */,
-				B7E3A2AB1A12027700416517 /* DBmanager.m */,
+				B701F0C31A1F4DA5008A4D01 /* ANAGRAFICHE */,
+				B701F0C41A1F4DBD008A4D01 /* NSOBJECT_TABELLE */,
+				B701F0C51A1F4DFC008A4D01 /* CustomCell */,
+				B701F0C61A1F4E14008A4D01 /* SQLITE_MANAGER */,
 				B76A27AA1A0AEEE8003E1728 /* ad_hoc_revolution.gif */,
 				B76A27A81A0AEE8F003E1728 /* ahr_a.png */,
 				B7478EDD1A0E489800BD4B8F /* contact3.png */,
 				B7478EDB1A0E465A00BD4B8F /* email.png */,
 				B7478ED91A0E457000BD4B8F /* Telefono.png */,
-				B76A279C1A0ACFF8003E1728 /* ZoomCli.h */,
-				B76A279D1A0ACFF8003E1728 /* ZoomCli.m */,
 				B7248ABA1A0A182E00819B06 /* AppDelegate.h */,
 				B7248ABB1A0A182E00819B06 /* AppDelegate.m */,
 				B7248AC31A0A182E00819B06 /* Main.storyboard */,
-				B7321EB71A0D5F5A0089B2D1 /* DettaglioClienti.h */,
-				B7321EB81A0D5F5A0089B2D1 /* DettaglioClienti.m */,
-				B74A10DE1A0B8B6E00C507A1 /* DettaglioFornitori.h */,
-				B74A10DF1A0B8B6E00C507A1 /* DettaglioFornitori.m */,
 				B7248AC61A0A182E00819B06 /* Images.xcassets */,
 				B7248AC81A0A182E00819B06 /* LaunchScreen.xib */,
 				B7248AB61A0A182E00819B06 /* Supporting Files */,
@@ -313,7 +360,7 @@
 				B7248AC51A0A182E00819B06 /* Main.storyboard in Resources */,
 				B7478EDA1A0E457000BD4B8F /* Telefono.png in Resources */,
 				B7248ACA1A0A182E00819B06 /* LaunchScreen.xib in Resources */,
-				B72855141A1A566300AB1E21 /* AHR.sqlite in Resources */,
+				B701F0CE1A1F85DE008A4D01 /* AHR.sqlite in Resources */,
 				B7248AC71A0A182E00819B06 /* Images.xcassets in Resources */,
 				B76A27A91A0AEE8F003E1728 /* ahr_a.png in Resources */,
 				B76A27AB1A0AEEE8003E1728 /* ad_hoc_revolution.gif in Resources */,
@@ -337,11 +384,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B701F0C21A1F4D5B008A4D01 /* Articoli.m in Sources */,
 				B74A10E01A0B8B6E00C507A1 /* DettaglioFornitori.m in Sources */,
 				B7321EBC1A0D89850089B2D1 /* ANACLI.m in Sources */,
 				B7248B3F1A0A1F0800819B06 /* Clienti.m in Sources */,
+				B701F0CC1A1F7F40008A4D01 /* ZoomArti.m in Sources */,
 				B7321EB91A0D5F5A0089B2D1 /* DettaglioClienti.m in Sources */,
 				B76A27A71A0AEC2D003E1728 /* ZoomFor.m in Sources */,
+				B701F0C91A1F4F97008A4D01 /* ANAART.m in Sources */,
 				B7248ABC1A0A182E00819B06 /* AppDelegate.m in Sources */,
 				B7E3A2AC1A12027700416517 /* DBmanager.m in Sources */,
 				B7248B001A0A18CE00819B06 /* SQLClient.m in Sources */,
