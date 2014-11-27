@@ -11,7 +11,7 @@
 #import "ANAART.h"
 #import "ZoomArti.h"
 #import "DBmanager.h"
-
+#import "Listini.h"
 
 @interface Articoli ()
 @property (strong,nonatomic) DBmanager *dbManager;
@@ -188,6 +188,45 @@
     // Pass the selected object to the new view controller.
 }
 */
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self performSegueWithIdentifier:@"DettaglioListini" sender:nil];
+    
+}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    if ([segue.identifier isEqualToString:@"DettaglioListini"])
+        
+    {
+        Listini *DetLis = [segue destinationViewController];
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        
+        if (mainDelegate.OnlineId.boolValue==1) {
+            ANAART *articoli_stru=[[ANAART alloc]init];
+            articoli_stru=[self.tablesource objectAtIndex:selectedIndexPath.row];
+            //NSLog(@"%@",[keyArray objectAtIndex:selectedIndexPath.row]);
+            DetLis.pCodiceArticolo=articoli_stru.arcodice;
+                   }
+        else {
+            // NSLog(@"%@",self.tablesource);
+            NSInteger indexOfcodice =0;
+           
+            //   NSInteger indexOfpagamento =
+            DetLis.pCodiceArticolo=[NSString stringWithFormat:@"%@", [[self.tablesource objectAtIndex:selectedIndexPath.row] objectAtIndex:indexOfcodice]];
+          // NSLog(@"%@",DetLis.pCodiceArticolo);
+            
+          //  NSLog(@"%@",self.dbManager.arrResults);
+                      
+        }
+        
+        
+
+        
+        
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
+    }
+}
+
 -(void)EstrapolaDati:(NSString*)SQLstring{
     SQLClient* client = [SQLClient sharedInstance];
     client.delegate = self;

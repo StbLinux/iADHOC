@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 @import MapKit;
+
 @interface DettaglioFornitori : UIViewController
 @property (strong, nonatomic) IBOutlet UILabel *codice;
 @property (strong, nonatomic) IBOutlet UILabel *ragsoc;
@@ -30,6 +32,7 @@
 @property (retain, nonatomic) NSString *pTelefono;
 @property (retain, nonatomic) NSString *pEMAIL;
 @property (retain,nonatomic) NSString *pcodpag;
-@property (strong, nonatomic) IBOutlet MKMapView *mappa;
+
+@property (strong,nonatomic)  CLLocationManager    *locationmanager;
 
 @end

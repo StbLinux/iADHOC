@@ -26,7 +26,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    finecaricamento=false;
+   
+    finecaricamento=true;
 #if TARGET_IPHONE_SIMULATOR
     // where are you?
     NSLog(@"Documents Directory: %@", [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
@@ -385,8 +386,8 @@
 -(void) salvaclientisqlite{
     
     NSInteger nrecord=[_tablesource count];
-    NSLog(@"%li%@",_tablesource.count,@"nrecord");
-    NSLog(@"%@",_tablesource);
+    //NSLog(@"%li%@",_tablesource.count,@"nrecord");
+   // NSLog(@"%@",_tablesource);
     NSInteger i=0;
     
       while (i<nrecord) {
@@ -430,9 +431,9 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self cerca:searchBar];
 }
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+/*- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
     [self cerca:searchBar];
-}
+}*/
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
    
     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
@@ -442,6 +443,8 @@
             NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ANTIPCON,ANCODICE, ANDESCRI,ANDESCR2,ANINDIRI,ANINDIR2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='C' order by ANDESCRI"];
             // NSLog(@"%@",SQLState);
             [self EstrapolaDati:SQLState];
+            [searchBar resignFirstResponder];
+
         }
        
        
@@ -476,10 +479,10 @@
             NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@%@%@%@",@"SELECT ANTIPCON,ANCODICE, ANDESCRI,ANDESCR2,ANINDIRI,ANINDIR2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='C' and ANDESCRI LIKE '%",searchBar.text,@"%' ",@"order by ANDESCRI"];
             // NSLog(@"%@",SQLState);
             [self EstrapolaDati:SQLState];
-            
+            [searchBar resignFirstResponder];
         }
         else {
-            
+            finecaricamento=false;
             NSString *query =[NSString stringWithFormat:@"%@%@%@",@"select ANTIPCON,ANCODICE,ANDESCRI,ANDESCR2,ANINDIRI,ANINDIRI2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL from CONTI where ANTIPCON='C' and ANDESCRI LIKE '%",searchBar.text,@"%'"];
             
             // Get the results.
@@ -490,6 +493,8 @@
         }
         [searchBar resignFirstResponder];
         [self.tableView reloadData];
+        finecaricamento=true;
+
 
     }
     

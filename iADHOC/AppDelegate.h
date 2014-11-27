@@ -24,6 +24,8 @@
 @property (strong,nonatomic) NSString *AziendaId;
 @property (strong,nonatomic) NSString *OnlineId;
 
+@property (strong,nonatomic) NSString *iPhone;
+
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 

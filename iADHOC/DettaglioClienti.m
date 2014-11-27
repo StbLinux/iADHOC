@@ -7,9 +7,13 @@
 //
 
 #import "DettaglioClienti.h"
+#import "VendutoCliente.h"
+
 @interface DettaglioClienti () <MKMapViewDelegate,CLLocationManagerDelegate> {
     MKPolyline *_routeOverlay;
     MKRoute *_currentRoute;
+    MKMapView *mappa;
+    
 }
 
 - (IBAction)Indietro:(id)sender;
@@ -18,24 +22,28 @@
 @end
 
 @implementation DettaglioClienti
+
 -(void) viewWillAppear:(BOOL)animated{
+    
+   // NSString *iOSVersion = [[UIDevice currentDevice] systemVersion];
+   // NSLog(@"%@",iOSVersion);
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     _locationmanager = [CLLocationManager new]; // initializing locationManager
     _locationmanager.delegate = self;
     _locationmanager.desiredAccuracy = kCLLocationAccuracyBest; // setting the accuracy
-    [_locationmanager requestWhenInUseAuthorization];
+    if (![mainDelegate.iPhone isEqualToString:@"iPhone 4"]) {
+        [_locationmanager requestWhenInUseAuthorization];
+
+    }
+  
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   /* UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc]
-                                             initWithTarget:self action:@selector(Chiama:)];
     
-    // Specify that the gesture must be a single tap
-    tapRecognizer.numberOfTapsRequired = 1;
-    
-    // Add the tap gesture recognizer to the view
-       [self.view addGestureRecognizer:tapRecognizer];*/
-    _CodiceCliente.text=_pCodiceCliente;
+     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+      _CodiceCliente.text=_pCodiceCliente;
     _RagioneSociale.text=_pRagsoc;
     _Indirizzo.text=_pIndirizzo;
    
@@ -44,14 +52,25 @@
     _EMAIL.text=_pEMAIL;
     _Provincia.text=_pProvincia;
     _Telefono.text=_pTelefono;
-    _mappa.delegate=self;
+    //mappa.delegate=self;
+  
+    if ([mainDelegate.iPhone isEqualToString:@"iPhone 4"] ) {
+        mappa= [[MKMapView alloc]initWithFrame:
+                CGRectMake(10, 300, 300, 280)];
+
+    }
+    else {
+        mappa= [[MKMapView alloc]initWithFrame:
+                CGRectMake(10, 280, 350, 360)];
+    }
+    
+      mappa.delegate = self;
+       [self.view addSubview:mappa];
+       [mappa setShowsUserLocation:YES];
+
+       
    
-    [_mappa setShowsUserLocation:YES];
-    [self percorso];
-    
-    
-    
-          }
+            }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -59,27 +78,39 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
-    NSLog(@"%@",@"updateuserlocation");
+     //  NSLog(@"%@",@"updateuserlocation");
+    
     MKCoordinateRegion mapRegion;
-    mapRegion.center = _mappa.userLocation.coordinate;
-    mapRegion.span = MKCoordinateSpanMake(0.1, 0.15);
-    [_mappa setRegion:mapRegion animated: YES];
+            mapRegion.center = mappa.userLocation.coordinate;
+        mapRegion.span = MKCoordinateSpanMake(0.1, 0.15);
+        [mappa setRegion:mapRegion animated: YES];
+    
 }
 
+
 #pragma mark - Navigation
-/*
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"VENDUTO"])
+        {
+    
+            VendutoCliente *VenCli = [segue destinationViewController];
+            VenCli.pCodiceCliente=_CodiceCliente.text;
+
+    }
+
 }
-*/
+
 
 - (IBAction)Indietro:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 
 }
--(void)percorso {
-   
+-(IBAction)percorso:(id)sender {
+    NSLog(@"%@", @"percorso");
+
    // NSString *location = @"some address, state, and zip";
     NSString *location = [NSString stringWithFormat:@"%@%@%@%@%@",_Paese.text,@",",_Indirizzo.text,@",",_Cap.text];
         CLGeocoder *geocoder = [[CLGeocoder alloc] init];
@@ -109,35 +140,59 @@
                 // So there wasn't an error - let's plot those routes
                 _currentRoute = [response.routes firstObject];
                 [self plotRouteOnMap:_currentRoute];
+                             NSLog(@"%f",_currentRoute.polyline.coordinate.latitude);
             }];
-            NSLog(@"%@",@"pippO");
+           // NSLog(@"%@",@"pippO");
           // .location.coordinate.latitude; //will returns latitude
             //             placemark.location.coordinate.longitude; will returns longitude
         }
     }];
     
     // Make the destination
-    
+   // [_mappa setShowsUserLocation:NO];
 
 }
 - (void)plotRouteOnMap:(MKRoute *)route
 {
-    if(_routeOverlay) {
-        [self.mappa removeOverlay:_routeOverlay];
-    }
+   
     
-    // Update the ivar
-    _routeOverlay = route.polyline;
+        if(_routeOverlay) {
+            [mappa removeOverlay:_routeOverlay];
+        }
+        _routeOverlay = route.polyline;
+        // Add it to the map
+        [mappa addOverlay:_routeOverlay];
+
     
-    // Add it to the map
-    [self.mappa addOverlay:_routeOverlay];
+    
+    
 }
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
 {
     MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
-    renderer.strokeColor = [UIColor redColor];
-    renderer.lineWidth = 4.0;
+    renderer.strokeColor = [UIColor greenColor];
+    renderer.lineWidth = 6.0;
     return  renderer;
+}
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    // If it's the user location, just return nil.
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
+    // Handle any custom annotations.
+    if ([annotation isKindOfClass:[MKPointAnnotation class]]) {
+        // Try to dequeue an existing pin view first.
+        MKPinAnnotationView *pinView = (MKPinAnnotationView*)[mappa dequeueReusableAnnotationViewWithIdentifier:@"CustomPinAnnotationView"];
+        if (!pinView)
+        {
+            // If an existing pin view was not available, create one.
+            pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"CustomPinAnnotationView"];
+            pinView.canShowCallout = YES;
+        } else {
+            pinView.annotation = annotation;
+        }
+        return pinView;
+    }
+    return nil;
 }
 - (IBAction)Chiama:(UITapGestureRecognizer *)sender {
     //Telefono, la vostra applicazione andrà in background per lasciare spazio al telefono
@@ -156,13 +211,5 @@
 
 }
 
-@end
-/*_locationmanager = [[CLLocationManager alloc]init]; // initializing locationManager
- _locationmanager.delegate = self;
- _mappa.delegate=self;
- _locationmanager.desiredAccuracy = kCLLocationAccuracyBest; // setting the accuracy
- [_locationmanager requestWhenInUseAuthorization]; // iOS 8 MUST
- [_locationmanager startUpdatingLocation];  //requesting location updates
- [ self.locationmanager requestWhenInUseAuthorization];
- self.mappa.showsUserLocation=YES;*/
 
+@end

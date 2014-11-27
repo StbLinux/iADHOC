@@ -10,15 +10,36 @@
 @interface DettaglioFornitori ()<MKMapViewDelegate,CLLocationManagerDelegate>{
     MKPolyline *_routeOverlay;
     MKRoute *_currentRoute;
+    MKMapView *mappa;
+
 }
 - (IBAction)Torna:(id)sender;
 
 @end
 
 @implementation DettaglioFornitori
+-(void) viewWillAppear:(BOOL)animated{
+    
+    NSString *iOSVersion = [[UIDevice currentDevice] systemVersion];
+    NSLog(@"%@",iOSVersion);
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+           _locationmanager = [CLLocationManager new]; // initializing locationManager
+        _locationmanager.delegate = self;
+        _locationmanager.desiredAccuracy = kCLLocationAccuracyBest; // setting the accuracy
+    if (![mainDelegate.iPhone isEqualToString:@"iPhone 4"]) {
+        [_locationmanager requestWhenInUseAuthorization];
+        
+    }
+    
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-       _codice.text=_pCodiceFornitore;
+   
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+
+    _codice.text=_pCodiceFornitore;
        _ragsoc.text=_pRagsoc;
     _indirizzo.text=_pIndirizzo;
     _cap.text=_pCap;
@@ -26,16 +47,21 @@
     _email.text=_pEMAIL;
     _provincia.text=_pProvincia;
     _telefono.text=_pTelefono;
-
-    _mappa.delegate=self;
-    CLLocationManager    *locationmanager = [CLLocationManager new]; // initializing locationManager
-    locationmanager.delegate = self;
-    locationmanager.desiredAccuracy = kCLLocationAccuracyBest; // setting the accuracy
-    [locationmanager requestAlwaysAuthorization];
-    [_mappa setShowsUserLocation:YES];
-    [self percorso];
-
- 
+        if ([mainDelegate.iPhone isEqualToString:@"iPhone 4"] ) {
+        mappa= [[MKMapView alloc]initWithFrame:
+                CGRectMake(10, 300, 300, 280)];
+        
+    }
+    else {
+        mappa= [[MKMapView alloc]initWithFrame:
+                CGRectMake(10, 280, 350, 360)];
+    }
+    
+    mappa.delegate = self;
+    [self.view addSubview:mappa];
+    [mappa setShowsUserLocation:YES];
+   
+    
     // Do any additional setup after loading the view.
 }
 
@@ -44,11 +70,14 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
+    NSLog(@"%@",@"updateuserlocation");
     MKCoordinateRegion mapRegion;
-    mapRegion.center = _mappa.userLocation.coordinate;
-    mapRegion.span = MKCoordinateSpanMake(0.4, 0.4);
-    [_mappa setRegion:mapRegion animated: YES];
+    mapRegion.center = mappa.userLocation.coordinate;
+    mapRegion.span = MKCoordinateSpanMake(0.1, 0.15);
+    [mappa setRegion:mapRegion animated: YES];
 }
+
+
 
 /*
 #pragma mark - Navigation
@@ -63,11 +92,12 @@
 - (IBAction)Torna:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
--(void)percorso {
+-(IBAction)percorso:(id)sender {
+   // NSLog(@"%@", @"percorso");
+    
     // NSString *location = @"some address, state, and zip";
     NSString *location = [NSString stringWithFormat:@"%@%@%@%@%@",_paese.text,@",",_indirizzo.text,@",",_cap.text];
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    
     [geocoder geocodeAddressString:location completionHandler:^(NSArray *placemarks, NSError *error) {
         if (error) {
             NSLog(@"%@", error);
@@ -93,28 +123,30 @@
                 // So there wasn't an error - let's plot those routes
                 _currentRoute = [response.routes firstObject];
                 [self plotRouteOnMap:_currentRoute];
+                NSLog(@"%f",_currentRoute.polyline.coordinate.latitude);
             }];
-            NSLog(@"%@",@"pippO");
+            // NSLog(@"%@",@"pippO");
             // .location.coordinate.latitude; //will returns latitude
             //             placemark.location.coordinate.longitude; will returns longitude
         }
     }];
     
     // Make the destination
-    
+    // [_mappa setShowsUserLocation:NO];
     
 }
+
 - (void)plotRouteOnMap:(MKRoute *)route
 {
     if(_routeOverlay) {
-        [self.mappa removeOverlay:_routeOverlay];
+        [mappa removeOverlay:_routeOverlay];
     }
     
     // Update the ivar
     _routeOverlay = route.polyline;
     
     // Add it to the map
-    [self.mappa addOverlay:_routeOverlay];
+    [mappa addOverlay:_routeOverlay];
 }
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
 {
