@@ -19,59 +19,65 @@
 
 @implementation Fornitori{
     ANACLI *anacli;
-    NSArray *searchResults;
-    BOOL primasincro;
-    BOOL finecaricamento;
+    //NSArray *searchResults;
+   BOOL finecaricamento;
+    
+    IBOutlet UINavigationItem *navigation;
 
 }
+-(void)viewDidAppear:(BOOL)animated{
+    
+    self.SearchBar.delegate = self;
+     navigation.titleView=_SearchBar;
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+       
+        if ([_tablesource count]==0) {
+            if (mainDelegate.OnlineId.boolValue==1) {
+                NSString *SQLState=@"SELECT ANCODICE, ANDESCRI,ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.S2010CONTI where ANTIPCON='F' order by ANDESCRI";
+                [self EstrapolaDati:SQLState];
+                
+            }
+            else {
+                
+                self.dbManager = [[DBmanager alloc] initWithDatabaseFilename:@"AHR.sqlite"];
+                NSString *query = @"select ANTIPCON,ANCODICE,ANDESCRI,ANDESCR2,ANINDIRI,ANINDIRI2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL from CONTI where ANTIPCON='F'";
+                
+                // Get the results.
+                
+                self.tablesource = nil;
+                
+                self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+                
+                if ([self.tablesource count]==0) {
+                    
+                    NSLog(@"%@",@"nessun record visualizzabile");
+                }
+                else {
+                    [self.tableView reloadData];
+                }
 
+            }
+            
+            
+            // Uncomment the following line to preserve selection between presentations.
+            // self.clearsSelectionOnViewWillAppear = NO;
+            
+            // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+            // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+            
+            
+        }
+        
+        NSLog(@"%i",finecaricamento);
+
+   
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    finecaricamento=true;
-     self.SearchBar.delegate = self;
-    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
-     if (mainDelegate.OnlineId.boolValue==1) {
-         NSString *SQLState=@"SELECT ANCODICE, ANDESCRI,ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.S2010CONTI where ANTIPCON='F' order by ANDESCRI";
-         [self EstrapolaDati:SQLState];
-         
-     }
-     else {
-         
-         self.dbManager = [[DBmanager alloc] initWithDatabaseFilename:@"AHR.sqlite"];
-         NSString *query = @"select ANTIPCON,ANCODICE,ANDESCRI,ANDESCR2,ANINDIRI,ANINDIRI2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL from CONTI where ANTIPCON='F'";
-         
-         // Get the results.
-         
-         self.tablesource = nil;
-         
-         self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
-         
-         if ([self.tablesource count]==0) {
-             primasincro=true;
-             _spinner = [[UIActivityIndicatorView alloc]
-                         initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-             _spinner.center = CGPointMake(160, 240);
-             _spinner.hidesWhenStopped = YES;
-             
-             
-             [self.view addSubview:_spinner];
-             
-             [_spinner startAnimating];
-             [self loadData];
-             
-             
-         }
-         
-     }
-
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
+  }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -81,13 +87,12 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
+
     // Return the number of rows in the section.
     return [_tablesource count];
 
@@ -252,12 +257,14 @@ return cell;
     SQLClient* client = [SQLClient sharedInstance];
     client.delegate = self;
     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
-
+    finecaricamento=false;
+    
     [client connect:[NSString stringWithFormat:@"%@%@%@",mainDelegate.ServerId,@":",mainDelegate.PortaId] username:[NSString stringWithFormat:@"%@",mainDelegate.UtenteId]  password:[NSString stringWithFormat:@"%@",mainDelegate.PasswordId]  database:[NSString stringWithFormat:@"%@",mainDelegate.DBId]   completion:^(BOOL success) {
         if (success)
         {
             [client execute:SQLState completion:^(NSArray* results) {
                 [self PopolaTabella:results];
+               
                 [client disconnect];
             }];
         }
@@ -266,11 +273,15 @@ return cell;
     
     
 }
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 -(void)PopolaTabella:(NSArray*)data{
     
     NSMutableArray* tbsource=[[NSMutableArray alloc]init];
-    
-    for (NSArray* table in data)
+        for (NSArray* table in data)
         for (NSDictionary* row in table){
             ANACLI *ANAGRAFICA=[[ANACLI alloc]init];
             for (NSString* column in row){
@@ -326,13 +337,10 @@ return cell;
     
     
     self.tablesource=tbsource;
-    if (primasincro==true) {
-        [self salvaclientisqlite];
-    }
-    else {
-        [self.tableView reloadData];
-    }
     
+        [self.tableView reloadData];
+   
+
     finecaricamento=true;
     
 }
@@ -351,70 +359,18 @@ return cell;
 {
     NSLog(@"Message: %@", message);
 }
--(void) salvaclientisqlite{
-    
-    NSInteger nrecord=[_tablesource count];
- //   NSLog(@"%li%@",_tablesource.count,@"nrecord");
-    NSLog(@"%@",_tablesource);
-    NSInteger i=0;
-    
-    while (i<nrecord) {
-        
-        ANACLI *clienti=[[ANACLI alloc]init];
-        clienti=[_tablesource objectAtIndex:i];
-        NSString *ragionesociale=clienti.ragsoc;
-        ragionesociale = [ragionesociale stringByReplacingOccurrencesOfString:@"'"
-                                                                   withString:@" "];
-        
-        
-        NSString *query = [NSString stringWithFormat:@"insert into conti values('%@','%@','%@','%@', '%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@')", @"F",clienti.codice,ragionesociale,@"",clienti.indirizzo,@"",clienti.cap,clienti.paese,@"BS",@"IT",clienti.telefono,@"",@"",@"",@"",@"",clienti.codpag,@"",@"",clienti.email];
-        NSLog(@"%@",query);
-        // Execute the query.
-        [self.dbManager executeQuery:query];
-        
-        // If the query was successfully executed then pop the view controller.
-        if (self.dbManager.affectedRows != 0) {
-            NSLog(@"Query was executed successfully. Affected rows = %d", self.dbManager.affectedRows);
-            
-            // Pop the view controller.
-            
-        }
-        else {
-            NSLog(@"PROBLEM Affected rows = %d", self.dbManager.affectedRows);
-        }
-        i+=1;
-        
-    }
-    NSString *query = @"select ANTIPCON,ANCODICE,ANDESCRI,ANDESCR2,ANINDIRI,ANINDIRI2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL from CONTI where ANTIPCON='F'";
-    
-    // Get the results.
-    self.tablesource = nil;
-    
-    self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
-    [self.tableView reloadData];
-    primasincro=false;
-    [_spinner stopAnimating];
-    
-}
 -(void)loadData{
     
-    NSLog(@"%@",@"sono qui");
-    if (primasincro==true) {
-        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
-        
-        NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ANTIPCON,ANCODICE, ANDESCRI,ANDESCR2,ANINDIRI,ANINDIR2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='F' order by ANDESCRI"];
-        [self EstrapolaDati:SQLState];
-        
-        
-        
-        
-        [self.tableView reloadData];
-        
-    }
-    else {
-        [self.tableView reloadData];
-        
-    }
+  //  NSLog(@"%@",@"sono qui");
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+    NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ANTIPCON,ANCODICE, ANDESCRI,ANDESCR2,ANINDIRI,ANINDIR2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='F' order by ANDESCRI"];
+    [self EstrapolaDati:SQLState];
+    
+    
+    
+    
+    [self.tableView reloadData];
     finecaricamento=true;
     
 }
@@ -489,6 +445,221 @@ return cell;
     }
      [searchBar resignFirstResponder];
 }
+- (IBAction)Indietro:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+- (IBAction)sincronizza:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Sincronizzazioni"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Annulla"
+                                               destructiveButtonTitle:@"Completa"
+                                                    otherButtonTitles:@"Aggiornamenti",nil];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        // In this case the device is an iPad.
+        [actionSheet showFromRect:[(UIButton *)sender frame] inView:self.view animated:YES];
+    }
+    else{
+        // In this case the device is an iPhone/iPod Touch.
+        [actionSheet showInView:self.view];
+    }
+    
+    actionSheet.tag = 100;
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (actionSheet.tag == 100) {
+        
+        //   NSLog(@"Index = %ld - Title = %@", (long)buttonIndex, [actionSheet buttonTitleAtIndex:buttonIndex]);
+        if (buttonIndex==0) {
+            NSLog(@"%@",@"Sono in sincronizza");
+            [self Cancella_archivio:@"CONTI" condizione:@"ANTIPCON='F'"];
+            _tablesource=nil;
+            [self.tableView reloadData];
+            
+            //   _attendere.hidden=false;
+            
+            
+            _spinner = [[UIActivityIndicatorView alloc]
+                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            _spinner.center = CGPointMake(160, 240);
+            _spinner.hidesWhenStopped = YES;
+            
+            
+            [self.view addSubview:_spinner];
+            
+            [_spinner startAnimating];
+            
+            NSString *SQLState;
+            AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+            
+            //CLIENTI
+            
+            
+            SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ANTIPCON,ANCODICE, ANDESCRI,ANDESCR2,ANINDIRI,ANINDIR2,AN___CAP,ANLOCALI,ANPROVIN,ANNAZION,ANTELEFO,ANTELFAX,ANNUMCEL,ANCODFIS,ANPARIVA,ANCATCON,ANCODPAG,AN__NOTE,ANINDWEB,AN_EMAIL FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='F' order by ANDESCRI"];
+            
+            [self SincroDati:SQLState];
+            
+        }
+        
+    }
+}
+- (void)Cancella_archivio:(NSString*)archivio condizione:(NSString*)condizione{
+    self.dbManager = [[DBmanager alloc] initWithDatabaseFilename:@"AHR.sqlite"];
+    NSString *query =[NSString stringWithFormat:@"%@%@%@%@", @"DELETE from ",archivio,@" where ",condizione ];
+    [self.dbManager executeQuery:query];
+    
+}
+
+-(void) salvalocalesqlite:(NSString*)archivio{
+    self.dbManager = [[DBmanager alloc] initWithDatabaseFilename:@"AHR.sqlite"];
+    NSInteger nrecord=[_tablesource count];
+    //NSLog(@"%li%@",_tablesource.count,@"nrecord");
+    // NSLog(@"%@",_tablesource);
+    NSInteger i=0;
+    NSString *tipoconto;
+    NSString *query;
+    NSLog(@"%li",(long)nrecord);
+    while (i<nrecord) {
+        //Clienti o fornitori
+        
+        
+        ANACLI *tabella;
+        
+        tabella=[[ANACLI alloc]init];
+        
+        tipoconto=@"F";
+        
+        
+        
+        tabella=[_tablesource objectAtIndex:i];
+        NSString *locali=tabella.paese;
+        locali=[locali stringByReplacingOccurrencesOfString:@"'" withString:@" "];
+        NSString *ragionesociale=tabella.ragsoc;
+        ragionesociale = [ragionesociale stringByReplacingOccurrencesOfString:@"'"
+                                                                   withString:@" "];
+        query = [NSString stringWithFormat:@"insert into conti values('%@','%@','%@','%@', '%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@','%@')", tipoconto,tabella.codice,ragionesociale,@"",tabella.indirizzo,@"",tabella.cap,locali,@"BS",@"IT",tabella.telefono,@"",@"",@"",@"",@"",tabella.codpag,@"",@"",tabella.email];
+        NSLog(@"%@",query);
+        
+        
+        
+        
+        
+        
+        // Execute the query.
+        [self.dbManager executeQuery:query];
+        
+        // If the query was successfully executed then pop the view controller.
+        if (self.dbManager.affectedRows != 0) {
+            NSLog(@"Query was executed successfully. Affected rows = %d", self.dbManager.affectedRows);
+            
+            // Pop the view controller.
+            
+        }
+        else {
+            NSLog(@"PROBLEM Affected rows = %d", self.dbManager.affectedRows);
+        }
+        i+=1;
+    }
+    
+    
+    [_spinner stopAnimating];
+    //_attendere.hidden=true;
+    UIAlertView *messaggio=[[UIAlertView alloc]initWithTitle:@"SINCRONIZZAZIONE COMPLETA" message:@"Terminata con sucesso" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [messaggio show];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    
+}
+-(void)SincroDati:(NSString*)SQLstring{
+    SQLClient* client = [SQLClient sharedInstance];
+    client.delegate = self;
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+    
+    [client connect:[NSString stringWithFormat:@"%@%@%@",mainDelegate.ServerId,@":",mainDelegate.PortaId] username:[NSString stringWithFormat:@"%@",mainDelegate.UtenteId]  password:[NSString stringWithFormat:@"%@",mainDelegate.PasswordId]  database:[NSString stringWithFormat:@"%@",mainDelegate.DBId]   completion:^(BOOL success) {
+        if (success)
+        {
+            [client execute:SQLstring completion:^(NSArray* results) {
+                [self PopolaSincro:results];
+                [client disconnect];
+            }];
+        }
+        
+    }];
+    
+    
+}
+-(void)PopolaSincro:(NSArray*)data{
+    
+    NSMutableArray* tbsource=[[NSMutableArray alloc]init];
+    
+    for (NSArray* table in data)
+        for (NSDictionary* row in table){
+            ANACLI *ANAGRAFICA=[[ANACLI alloc]init];
+            for (NSString* column in row){
+                
+                //NSLog(@"%@",row[column]);
+                
+                if ([column isEqual:@"ANLOCALI"]) {
+                    
+                    ANAGRAFICA.paese=row[column];
+                }
+                if ([column isEqual:@"ANDESCRI"]) {
+                    
+                    ANAGRAFICA.ragsoc=row[column] ;
+                }
+                if ([column isEqual:@"ANINDIRI"]) {
+                    
+                    ANAGRAFICA.indirizzo=row[column] ;
+                }
+                if ([column isEqual:@"ANCODICE"]) {
+                    
+                    ANAGRAFICA.codice=row[column] ;
+                }
+                if ([column isEqual:@"ANTELEFO"]) {
+                    
+                    ANAGRAFICA.telefono=row[column] ;
+                }
+                if ([column isEqual:@"ANPROVINCIA"]) {
+                    
+                    ANAGRAFICA.provincia=row[column] ;
+                }
+                if ([column isEqual:@"AN___CAP"]) {
+                    
+                    ANAGRAFICA.cap=row[column] ;
+                }
+                if ([column isEqual:@"AN_EMAIL"]) {
+                    
+                    ANAGRAFICA.email=row[column] ;
+                }
+                if ([column isEqual:@"ANCODPAG"]) {
+                    
+                    ANAGRAFICA.codpag=row[column] ;
+                }
+            }
+            
+            
+            
+            
+            // NSLog(@"%@",ANAGRAFICA.codice );
+            [tbsource   addObject:ANAGRAFICA];
+            
+        }
+    
+    
+    self.tablesource=tbsource;
+    
+    
+    [self salvalocalesqlite:@"Fornitori"];
+    
+    //[self.tableView reloadData];
+    finecaricamento=true;
+    
+    
+}
+
 
 
 @end

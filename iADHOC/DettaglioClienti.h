@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @import MapKit;
 
-@interface DettaglioClienti : UIViewController
+@interface DettaglioClienti : UIViewController <UIActionSheetDelegate>
 
 @property (retain,nonatomic) NSString *pCodiceCliente;
 @property (retain,nonatomic) NSString *pRagsoc;
@@ -34,5 +34,6 @@
 @property (strong,nonatomic)  CLLocationManager    *locationmanager;
 
 
+- (IBAction)Naviga:(id)sender;
 
 @end

@@ -19,21 +19,23 @@
 
 @implementation Articoli {
     
-    BOOL primasincro;
+    
+    IBOutlet UINavigationItem *navigation;
     BOOL finecaricamento;
 
     
 }
+-(void)viewDidAppear:(BOOL)animated{
+    self.SearchBar.delegate = self;
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-     finecaricamento=false;
+    navigation.titleView=_SearchBar;
+
     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
-
+    
     if (mainDelegate.OnlineId.boolValue==1) {
         NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ARCODART, ARDESART,ARDESSUP,ARUNMIS1, ARMOLTIP, ARGRUMER, ARCODFAM, ARTIPART FROM dbo.",mainDelegate.AziendaId,@"ART_ICOL ",@"where ARTIPART='PF' order by ARCODART"];
         [self EstrapolaDati:SQLState];
-        
+        [self.tableView reloadData];
     }
     else {
         
@@ -47,30 +49,29 @@
         self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
         
         if ([self.tablesource count]==0) {
-            primasincro=true;
-            _spinner = [[UIActivityIndicatorView alloc]
-                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            _spinner.center = CGPointMake(160, 240);
-            _spinner.hidesWhenStopped = YES;
             
             
-            [self.view addSubview:_spinner];
-            
-            [_spinner startAnimating];
-            [self loadData];
-            
+        }
+        else {
+            [self.tableView reloadData];
             
         }
         
     }
     
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+    
 }
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+   }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -306,12 +307,6 @@
     
     
     self.tablesource=tbsource;
-    if (primasincro==true) {
-        [self salvaclientisqlite];
-    }
-    else {
-        [self.tableView reloadData];
-    }
     
     finecaricamento=true;
     
@@ -332,44 +327,95 @@
 {
     NSLog(@"Message: %@", message);
 }
-
--(void)loadData{
+- (IBAction)sincronizza:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Sincronizzazioni"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Annulla"
+                                               destructiveButtonTitle:@"Completa"
+                                                    otherButtonTitles:@"Aggiornamenti",nil];
     
-    // NSLog(@"%@",@"sono qui");
-    if (primasincro==true) {
-        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        // In this case the device is an iPad.
+        [actionSheet showFromRect:[(UIButton *)sender frame] inView:self.view animated:YES];
+    }
+    else{
+        // In this case the device is an iPhone/iPod Touch.
+        [actionSheet showInView:self.view];
+    }
+    
+    actionSheet.tag = 100;
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (actionSheet.tag == 100) {
         
-        NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ARCODART,ARDESART, ARDESSUP,ARUNMIS1,ARMOLTIP,ARGRUMER,ARCODFAM,ARTIPART FROM dbo.",mainDelegate.AziendaId,@"ART_ICOL where ARTIPART='PF'",@"order by ARCODART"];
-        [self EstrapolaDati:SQLState];
-        
-        
-        
-        
-        [self.tableView reloadData];
+        //   NSLog(@"Index = %ld - Title = %@", (long)buttonIndex, [actionSheet buttonTitleAtIndex:buttonIndex]);
+        if (buttonIndex==0) {
+            NSLog(@"%@",@"Sono in sincronizza");
+            [self Cancella_archivio:@"CONTI" condizione:@"ANTIPCON='C'"];
+            _tablesource=nil;
+            [self.tableView reloadData];
+            
+            //   _attendere.hidden=false;
+            
+            
+            _spinner = [[UIActivityIndicatorView alloc]
+                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            _spinner.center = CGPointMake(160, 240);
+            _spinner.hidesWhenStopped = YES;
+            
+            
+            [self.view addSubview:_spinner];
+            
+            [_spinner startAnimating];
+            
+            NSString *SQLState;
+            AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+            
+            //ARTICOLI
+            
+            SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ARCODART, ARDESART,ARDESSUP,ARUNMIS1, ARMOLTIP, ARGRUMER, ARCODFAM, ARTIPART FROM dbo.",mainDelegate.AziendaId,@"ART_ICOL ",@"where ARTIPART='PF' order by ARCODART"];
+            
+            [self SincroDati:SQLState];
+            
+        }
         
     }
-    else {
-        [self.tableView reloadData];
-        
-        
-    }
-    finecaricamento=true;
+}
+- (void)Cancella_archivio:(NSString*)archivio condizione:(NSString*)condizione{
+    self.dbManager = [[DBmanager alloc] initWithDatabaseFilename:@"AHR.sqlite"];
+    NSString *query =[NSString stringWithFormat:@"%@%@%@%@", @"DELETE from ",archivio,@" where ",condizione ];
+    [self.dbManager executeQuery:query];
     
 }
--(void) salvaclientisqlite{
-    
+-(void) salvalocalesqlite:(NSString*)archivio{
+    self.dbManager = [[DBmanager alloc] initWithDatabaseFilename:@"AHR.sqlite"];
     NSInteger nrecord=[_tablesource count];
-    NSLog(@"%li%@",_tablesource.count,@"nrecord");
-    NSLog(@"%@",_tablesource);
+    //NSLog(@"%li%@",_tablesource.count,@"nrecord");
+    // NSLog(@"%@",_tablesource);
     NSInteger i=0;
-    
+   
+    NSString *query;
+    NSLog(@"%li",(long)nrecord);
     while (i<nrecord) {
+        //Articoli
         
-        ANAART *articoli=[[ANAART alloc]init];
-        articoli=[_tablesource objectAtIndex:i];
+        ANAART *tabella;
         
-        NSString *query = [NSString stringWithFormat:@"insert into articoli values('%@','%@','%@','%@', '%@','%@','%@','%@')",articoli.arcodice,articoli.ardescri,articoli.ardessup,articoli.arunmis1,articoli.armoltip,articoli.argrumer,articoli.arcodfam,articoli.artipart ];
-        NSLog(@"%@",query);
+        tabella=[[ANAART alloc]init];
+        
+        
+        
+        
+        tabella=[_tablesource objectAtIndex:i];
+        
+        
+        query = [NSString stringWithFormat:@"insert into articoli values('%@','%@','%@','%@', '%@','%@','%@','%@')",tabella.arcodice,tabella.ardescri,tabella.ardessup,tabella.arunmis1,tabella.armoltip,tabella.argrumer,tabella.arcodfam,tabella.artipart ];
+        
+        
+        
+        
+        
         // Execute the query.
         [self.dbManager executeQuery:query];
         
@@ -384,17 +430,182 @@
             NSLog(@"PROBLEM Affected rows = %d", self.dbManager.affectedRows);
         }
         i+=1;
+    }
+    
+    
+    [_spinner stopAnimating];
+    //_attendere.hidden=true;
+    UIAlertView *messaggio=[[UIAlertView alloc]initWithTitle:@"SINCRONIZZAZIONE COMPLETA" message:@"Terminata con sucesso" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [messaggio show];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    
+}
+-(void)SincroDati:(NSString*)SQLstring{
+    SQLClient* client = [SQLClient sharedInstance];
+    client.delegate = self;
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+    
+    [client connect:[NSString stringWithFormat:@"%@%@%@",mainDelegate.ServerId,@":",mainDelegate.PortaId] username:[NSString stringWithFormat:@"%@",mainDelegate.UtenteId]  password:[NSString stringWithFormat:@"%@",mainDelegate.PasswordId]  database:[NSString stringWithFormat:@"%@",mainDelegate.DBId]   completion:^(BOOL success) {
+        if (success)
+        {
+            [client execute:SQLstring completion:^(NSArray* results) {
+                [self PopolaSincro:results];
+                [client disconnect];
+            }];
+        }
+        
+    }];
+    
+    
+}
+-(void)PopolaSincro:(NSArray*)data{
+    
+    NSMutableArray* tbsource=[[NSMutableArray alloc]init];
+    
+    for (NSArray* table in data)
+        for (NSDictionary* row in table){
+            ANAART *ANAGRAFICA=[[ANAART alloc]init];
+            for (NSString* column in row){
+                
+                //NSLog(@"%@",row[column]);
+                
+                if ([column isEqual:@"ARCODART"]) {
+                    
+                    ANAGRAFICA.arcodice=row[column];
+                }
+                if ([column isEqual:@"ARDESART"]) {
+                    
+                    ANAGRAFICA.ardescri=row[column] ;
+                    NSLog(@"%@",ANAGRAFICA.ardescri);
+                }
+                if ([column isEqual:@"ARDESSUP"]) {
+                    
+                    ANAGRAFICA.ardessup=row[column] ;
+                }
+                if ([column isEqual:@"ARUNMIS1"]) {
+                    
+                    ANAGRAFICA.arunmis1=row[column] ;
+                }
+                if ([column isEqual:@"ARMOLTIP"]) {
+                    
+                    ANAGRAFICA.armoltip=row[column] ;
+                }
+                
+                if ([column isEqual:@"ARGRUMER"]) {
+                    
+                    ANAGRAFICA.argrumer=row[column] ;
+                }
+                if ([column isEqual:@"ARCODFAM"]) {
+                    
+                    ANAGRAFICA.arcodfam=row[column] ;
+                }
+                if ([column isEqual:@"ARTIPART"]) {
+                    
+                    ANAGRAFICA.artipart=row[column] ;
+                }
+                
+                
+            }
+            
+            
+            
+            
+            // NSLog(@"%@",ANAGRAFICA.codice );
+            [tbsource   addObject:ANAGRAFICA];
+            
+        }
+    
+    
+    self.tablesource=tbsource;
+    
+   
+    
+    [self salvalocalesqlite:@"Articoli"];
+    
+   
+    finecaricamento=true;
+    
+    
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self cerca:searchBar];
+}
+/*- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+ [self cerca:searchBar];
+ }*/
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    if (mainDelegate.OnlineId.boolValue==1) {
+        if (finecaricamento==true) {
+            finecaricamento=false;
+            NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ARCODART, ARDESART,ARDESSUP,ARUNMIS1, ARMOLTIP, ARGRUMER, ARCODFAM, ARTIPART FROM dbo.",mainDelegate.AziendaId,@"ART_ICOL ",@"where ARTIPART='PF' order by ARCODART"];            // NSLog(@"%@",SQLState);
+            [self EstrapolaDati:SQLState];
+            [searchBar resignFirstResponder];
+            
+        }
+        
         
     }
-    NSString *query = @"select ARCODART,ARDESART,ARDESSUP,ARUNMIS1,ARMOLTIP,ARGRUMER,ARCODFAM,ARTIPART from articoli where ARTIPART='PF'";
+    else {
+        if (finecaricamento==true) {
+            finecaricamento=false;
+            NSString *query = @"select ARCODART, ARDESART,ARDESSUP,ARUNMIS1,ARMOLTIP, ARGRUMER, ARCODFAM, ARTIPART from articoli where ARTIPART='PF' ";
+            
+            // Get the results.
+            
+            self.tablesource = nil;
+            
+            self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+            
+            
+        }
+        
+        [self.tableView reloadData];
+        [searchBar resignFirstResponder];
+        finecaricamento=true;
+    }
     
-    // Get the results.
-    self.tablesource = nil;
     
-    self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
-    [self.tableView reloadData];
-    primasincro=false;
-    [_spinner stopAnimating];
+}
+
+-(void)cerca:(UISearchBar *)searchBar {
+    if (finecaricamento==true) {
+        AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+        if (mainDelegate.OnlineId.boolValue==1) {
+            finecaricamento=false;
+           
+             NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@%@%@%@",@"SELECT ARCODART, ARDESART,ARDESSUP,ARUNMIS1, ARMOLTIP, ARGRUMER, ARCODFAM, ARTIPART FROM dbo.",mainDelegate.AziendaId,@"ART_ICOL ",@"where ARTIPART='PF' and ARDESART LIKE'%",searchBar.text,@"%'",@" order by ARCODART"];
+            // NSLog(@"%@",SQLState);
+            [self EstrapolaDati:SQLState];
+            [searchBar resignFirstResponder];
+        }
+        else {
+            finecaricamento=false;
+            NSString *query =[NSString stringWithFormat:@"%@%@%@%@", @"select ARCODART, ARDESART,ARDESSUP,ARUNMIS1,ARMOLTIP, ARGRUMER, ARCODFAM, ARTIPART from articoli where ARTIPART='PF' and ARDESART LIKE'%",searchBar.text,@"%'",@" order by ARCODART" ];
+            // Get the results.
+            
+            self.tablesource = nil;
+            
+            self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+        }
+        [searchBar resignFirstResponder];
+        [self.tableView reloadData];
+        finecaricamento=true;
+        
+        
+    }
+    
+}
+- (IBAction)Indietro:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
     
 }
 

@@ -26,7 +26,6 @@
     self.DBId=[userDef stringForKey:@"DBId"];
     self.AziendaId=[userDef stringForKey:@"AziendaId"];
     self.OnlineId=[userDef stringForKey:@"OnlineId"];
-   // NSLog(@"%@",self.OnlineId);
     NSString *iOSVersion = [[UIDevice currentDevice] systemVersion];
     NSLog(@"%@",iOSVersion);
     size_t size;

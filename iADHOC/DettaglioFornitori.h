@@ -10,7 +10,7 @@
 #import "AppDelegate.h"
 @import MapKit;
 
-@interface DettaglioFornitori : UIViewController
+@interface DettaglioFornitori : UIViewController <UIActionSheetDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *codice;
 @property (strong, nonatomic) IBOutlet UILabel *ragsoc;
 @property (strong, nonatomic) IBOutlet UILabel *indirizzo;
@@ -34,5 +34,6 @@
 @property (retain,nonatomic) NSString *pcodpag;
 
 @property (strong,nonatomic)  CLLocationManager    *locationmanager;
+- (IBAction)Naviga:(id)sender;
 
 @end

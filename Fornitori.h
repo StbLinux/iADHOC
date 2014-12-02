@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SQLClient.h"
 #import "AppDelegate.h"
-@interface Fornitori : UITableViewController <SQLClientDelegate,UISearchBarDelegate>
+@interface Fornitori : UITableViewController <SQLClientDelegate,UISearchBarDelegate,UIActionSheetDelegate>
 
 @property (nonatomic) NSArray *tablesource;
 
