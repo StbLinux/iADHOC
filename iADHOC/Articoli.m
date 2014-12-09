@@ -27,7 +27,7 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
     self.SearchBar.delegate = self;
-
+    NSLog(@"%@",@"entro articoli");
     navigation.titleView=_SearchBar;
 
     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
@@ -49,11 +49,12 @@
         self.tablesource = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
         
         if ([self.tablesource count]==0) {
-            
+            NSLog(@"%@",@"NON CI SONO RECORD");
             
         }
         else {
             [self.tableView reloadData];
+            finecaricamento=true;
             
         }
         
@@ -70,7 +71,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+     [self.tableView reloadData];
    }
 
 - (void)didReceiveMemoryWarning {
@@ -309,7 +310,8 @@
     self.tablesource=tbsource;
     
     finecaricamento=true;
-    
+    [self.tableView reloadData];
+
     
 }
 
@@ -530,10 +532,10 @@
     
 }
 
-- (BOOL)prefersStatusBarHidden
+/*- (BOOL)prefersStatusBarHidden
 {
     return YES;
-}
+}*/
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self cerca:searchBar];
 }
@@ -589,6 +591,7 @@
         }
         else {
             finecaricamento=false;
+            NSLog(@"%@",searchBar.text);
             NSString *query =[NSString stringWithFormat:@"%@%@%@%@", @"select ARCODART, ARDESART,ARDESSUP,ARUNMIS1,ARMOLTIP, ARGRUMER, ARCODFAM, ARTIPART from articoli where ARTIPART='PF' and ARDESART LIKE'%",searchBar.text,@"%'",@" order by ARCODART" ];
             // Get the results.
             

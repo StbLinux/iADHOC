@@ -14,8 +14,16 @@
 @interface VendutoCliente : UIViewController <SQLClientDelegate,UISearchBarDelegate>
 @property (retain,nonatomic) NSString *pCodiceCliente;
 @property (strong, nonatomic) IBOutlet UILabel *Imponibile;
-
+@property (strong, nonatomic) IBOutlet UILabel *SaldoContabile;
 @property (nonatomic) VENDUTO *venduto;
+@property (strong, nonatomic) IBOutlet UILabel *Labelsaldo;
+@property (strong, nonatomic) IBOutlet UILabel *PARTITE;
+@property (strong, nonatomic) IBOutlet UILabel *DDT;
+@property (strong, nonatomic) IBOutlet UILabel *FATTURE;
+
+@property (strong, nonatomic) IBOutlet UILabel *ORDINI;
+- (BOOL)checkConnection;
+
 -(void)EstrapolaDati:(NSString*) SQLstring LABEL:(NSString*)label;
 
 @end

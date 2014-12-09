@@ -31,7 +31,8 @@
     _locationmanager = [CLLocationManager new]; // initializing locationManager
     _locationmanager.delegate = self;
     _locationmanager.desiredAccuracy = kCLLocationAccuracyBest; // setting the accuracy
-    if (![mainDelegate.iPhone isEqualToString:@"iPhone 4"]) {
+    NSLog(@"%@",mainDelegate.iPhone);
+    if (![mainDelegate.iPhone isEqualToString:@"iPhone 4"]&& ![mainDelegate.iPhone isEqualToString:@"iPhone 4s"] ) {
         [_locationmanager requestWhenInUseAuthorization];
 
     }
@@ -246,13 +247,32 @@
 
     
 }
-
+- (void) Waze :(double)latitude
+     longitude:(double)longitude{
+    if ([[UIApplication sharedApplication]
+         canOpenURL:[NSURL URLWithString:@"waze://"]]) {
+        
+        // Waze is installed. Launch Waze and start navigation
+        NSString *urlStr =
+        [NSString stringWithFormat:@"waze://?ll=%f,%f&navigate=yes",
+         latitude, longitude];
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+        
+    } else {
+        
+        // Waze is not installed. Launch AppStore to install Waze app
+        [[UIApplication sharedApplication] openURL:[NSURL
+                                                    URLWithString:@"http://itunes.apple.com/us/app/id323229106"]];
+    }
+    
+}
 - (IBAction)Naviga:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Navigazione"
                                                              delegate:self
                                                     cancelButtonTitle:@"Annulla"
                                                destructiveButtonTitle:@"Visualizza percorso"
-                                                    otherButtonTitles:@"Avvia navigazione",nil];
+                                                    otherButtonTitles:@"Apple Map",@"Waze",nil];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         // In this case the device is an iPad.
@@ -280,7 +300,31 @@
             [self AvviaNavigazione];
         }
 
-    
+        if (buttonIndex==2) {
+            NSString *indirizzo=[NSString stringWithFormat:@"%@%@%@%@%@",_Paese.text,@",",_Indirizzo.text,@",",_Cap.text];
+            // MKMapItem *mapItemClass=[[MKMapItem alloc]init];
+            
+            // NSLog(@"%s","ENTRO NAVIGAZIONE");
+            CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+            [geocoder geocodeAddressString:indirizzo
+                         completionHandler:^(NSArray *placemarks, NSError *error) {
+                             
+                             // Convert the CLPlacemark to an MKPlacemark
+                             // Note: There's no error checking for a failed geocode
+                             CLPlacemark *geocodedPlacemark = [placemarks objectAtIndex:0];
+                             MKPlacemark *placemark = [[MKPlacemark alloc]
+                                                       initWithCoordinate:geocodedPlacemark.location.coordinate
+                                                       addressDictionary:geocodedPlacemark.addressDictionary];
+                             
+                            
+                             [self Waze:placemark.coordinate.latitude longitude:placemark.coordinate.longitude];
+                         }];
+            
+
+            
+        }
+        
+
 
     }
   }

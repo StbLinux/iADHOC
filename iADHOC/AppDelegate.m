@@ -17,7 +17,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [[UINavigationBar appearance] setBarTintColor:[UIColor yellowColor]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:99.0/255.0 green:151.0/255 blue:208.0/255.0 alpha:1]];
     NSUserDefaults* userDef = [NSUserDefaults standardUserDefaults];
     self.ServerId=[userDef stringForKey:@"ServerId"];
     self.PortaId=[userDef stringForKey:@"PortaId"];

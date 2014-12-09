@@ -12,9 +12,13 @@
 #import "ANACLI.h"
 #import "DBmanager.h"
 #import "DettaglioClienti.h"
-
+#import "Reachability.h"
 @interface Clienti ()
 @property (strong,nonatomic) DBmanager *dbManager;
+@property (nonatomic) Reachability *hostReachability;
+@property (nonatomic) Reachability *internetReachability;
+@property (nonatomic) Reachability *wifiReachability;
+
 @end
 
 @implementation Clienti{
@@ -22,9 +26,9 @@
     //BOOL primasincro;
     BOOL finecaricamento;
     IBOutlet UINavigationItem *navitem;
-   
-   }
+      }
 -(void)viewDidAppear:(BOOL)animated{
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     _SearchBar.delegate=self;
     navitem.titleView=_SearchBar;
     //self.tableView.frame = CGRectMake(0,navbar.frame.size.height, 320, self.view.frame.size.height-navbar.frame.size.height);
@@ -46,9 +50,18 @@
         if ([_tablesource count]==0) {
             NSLog(@"%@",@"nessun record");
             if (mainDelegate.OnlineId.boolValue==1) {
-                
-                NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ANCODICE, ANDESCRI,ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='C' order by ANDESCRI"];
-                [self EstrapolaDati:SQLState];
+                if(![self checkConnection]){
+                    UIAlertView *Errore=[[UIAlertView alloc]initWithTitle:@"Attenzione" message:@"Nessuna connessione disponibile" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil ];
+                    [Errore show];
+                    
+                }
+                else {
+                    
+                    NSString *SQLState=[NSString stringWithFormat:@"%@%@%@%@",@"SELECT ANCODICE, ANDESCRI,ANINDIRI,ANLOCALI,AN___CAP,ANPROVIN,ANTELEFO,AN_EMAIL,ANCODPAG FROM dbo.",mainDelegate.AziendaId,@"CONTI ",@"where ANTIPCON='C' order by ANDESCRI"];
+                    [self EstrapolaDati:SQLState];
+
+                    
+                }
                 
             }
             else {
@@ -205,19 +218,30 @@
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
 
         if (mainDelegate.OnlineId.boolValue==1) {
-                        ANACLI *cliente_stru=[[ANACLI alloc]init];
-            cliente_stru=[self.tablesource objectAtIndex:selectedIndexPath.row];
-                       //NSLog(@"%@",[keyArray objectAtIndex:selectedIndexPath.row]);
-            DetCli.pCodiceCliente=cliente_stru.codice;
-            DetCli.pRagsoc=cliente_stru.ragsoc;
-            DetCli.pPaese=cliente_stru.paese;
-            DetCli.pCap=cliente_stru.cap;
-            DetCli.pProvincia=cliente_stru.provincia;
-            DetCli.pTelefono=cliente_stru.telefono;
-            DetCli.pIndirizzo=cliente_stru.indirizzo;
-            DetCli.pEMAIL=cliente_stru.email;
-            DetCli.pcodpag=cliente_stru.codpag;
-        } else {
+            if(![self checkConnection]){
+                UIAlertView *Errore=[[UIAlertView alloc]initWithTitle:@"Attenzione" message:@"Nessuna connessione disponibile" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil ];
+                [Errore show];
+                
+            }
+            else {
+                
+                ANACLI *cliente_stru=[[ANACLI alloc]init];
+                cliente_stru=[self.tablesource objectAtIndex:selectedIndexPath.row];
+                //NSLog(@"%@",[keyArray objectAtIndex:selectedIndexPath.row]);
+                DetCli.pCodiceCliente=cliente_stru.codice;
+                DetCli.pRagsoc=cliente_stru.ragsoc;
+                DetCli.pPaese=cliente_stru.paese;
+                DetCli.pCap=cliente_stru.cap;
+                DetCli.pProvincia=cliente_stru.provincia;
+                DetCli.pTelefono=cliente_stru.telefono;
+                DetCli.pIndirizzo=cliente_stru.indirizzo;
+                DetCli.pEMAIL=cliente_stru.email;
+                DetCli.pcodpag=cliente_stru.codpag;
+            }
+
+        }
+        
+        else {
            // NSLog(@"%@",self.tablesource);
             NSInteger indexOfcodice =1;
             NSInteger indexOfragsoc =2;
@@ -428,10 +452,10 @@
 -(void)viewWillDisappear:(BOOL)animated{
     
 }
-- (BOOL)prefersStatusBarHidden
+/*- (BOOL)prefersStatusBarHidden
 {
     return YES;
-}
+}*/
 - (IBAction)Indietro:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -658,4 +682,85 @@
                                       );
     
 }*/
+- (void) reachabilityChanged:(NSNotification *)note
+{
+    Reachability* curReach = [note object];
+    NSParameterAssert([curReach isKindOfClass:[Reachability class]]);
+    [self updateInterfaceWithReachability:curReach];
+}
+
+
+- (void)updateInterfaceWithReachability:(Reachability *)reachability
+{
+    if (reachability == self.hostReachability)
+    {
+        NSLog(@"%@",@"connessone");
+        // [self configureTextField:self.remoteHostStatusField imageView:self.remoteHostImageView reachability:reachability];
+        NetworkStatus netStatus = [reachability currentReachabilityStatus];
+        NSLog(@"%ld",netStatus);
+        //ReachableViaWWAN
+        if (netStatus == NotReachable) {
+            NSLog(@"%@",@"Nessuna connessione");
+            
+            
+        }
+        else {
+            NSLog(@"%@",@"pingabile");
+          
+            
+        }
+        // BOOL connectionRequired = [reachability connectionRequired];
+        
+        //  self.summaryLabel.hidden = (netStatus != ReachableViaWWAN);
+        // NSString* baseLabelText = @"";
+        
+        /* if (connectionRequired)
+         {
+         baseLabelText = NSLocalizedString(@"Cellular data network is available.\nInternet traffic will be routed through it after a connection is established.", @"Reachability text if a connection is required");
+         }
+         else
+         {
+         baseLabelText = NSLocalizedString(@"Cellular data network is active.\nInternet traffic will be routed through it.", @"Reachability text if a connection is not required");
+         }
+         self.summaryLabel.text = baseLabelText;*/
+    }
+    
+    if (reachability == self.internetReachability)
+    {
+        //[self configureTextField:self.internetConnectionStatusField imageView:self.internetConnectionImageView reachability:reachability];
+    }
+    
+    if (reachability == self.wifiReachability)
+    {
+        //[self configureTextField:self.localWiFiConnectionStatusField imageView:self.localWiFiConnectionImageView reachability:reachability];
+    }
+}
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+}
+
+- (BOOL)checkConnection  {
+    AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    NSString *remoteHostName = mainDelegate.ServerId;
+    self.hostReachability = [Reachability reachabilityWithHostName:remoteHostName];
+    [self.hostReachability startNotifier];
+    NetworkStatus netStatus = [self.hostReachability currentReachabilityStatus];
+    NSLog(@"%ld",netStatus);
+    //ReachableViaWWAN
+    if (netStatus == NotReachable) {
+        NSLog(@"%@",@"Nessuna connessione");
+        
+        return NO;
+        
+    }
+    else {
+        NSLog(@"%@",@"pingabile");
+        return YES;
+        
+    }
+    
+    return NO;
+}
+
 @end

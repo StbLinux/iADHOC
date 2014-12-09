@@ -22,13 +22,14 @@
     //NSArray *searchResults;
    BOOL finecaricamento;
     
-    IBOutlet UINavigationItem *navigation;
+    IBOutlet UINavigationItem *navitem;
 
 }
 -(void)viewDidAppear:(BOOL)animated{
     
-    self.SearchBar.delegate = self;
-     navigation.titleView=_SearchBar;
+    _SearchBar.delegate = self;
+     navitem.titleView=_SearchBar;
+     self.edgesForExtendedLayout = UIRectEdgeNone;
     AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     
        
@@ -55,6 +56,7 @@
                 }
                 else {
                     [self.tableView reloadData];
+                    finecaricamento=true;
                 }
 
             }
@@ -273,10 +275,10 @@ return cell;
     
     
 }
-- (BOOL)prefersStatusBarHidden
+/*- (BOOL)prefersStatusBarHidden
 {
     return YES;
-}
+}*/
 
 -(void)PopolaTabella:(NSArray*)data{
     

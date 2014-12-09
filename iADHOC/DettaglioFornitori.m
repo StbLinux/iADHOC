@@ -17,6 +17,7 @@
 
 @end
 
+
 @implementation DettaglioFornitori
 -(void) viewWillAppear:(BOOL)animated{
     
@@ -60,9 +61,7 @@
     mappa.delegate = self;
     [self.view addSubview:mappa];
     [mappa setShowsUserLocation:YES];
-   
     
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,10 +103,12 @@
             
         } else {
             CLPlacemark *placemark = [placemarks lastObject];
+            
             MKDirectionsRequest *directionsRequest = [MKDirectionsRequest new];
             MKMapItem *source = [MKMapItem mapItemForCurrentLocation];
             CLLocationCoordinate2D destinationCoords = CLLocationCoordinate2DMake(placemark.location.coordinate.latitude,placemark.location.coordinate.longitude);
-            MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:destinationCoords addressDictionary:nil];
+            MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:destinationCoords  addressDictionary:nil];
+            
             MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
             // Set the source and destination on the request
             [directionsRequest setSource:source];
@@ -124,14 +125,16 @@
                 _currentRoute = [response.routes firstObject];
                 [self plotRouteOnMap:_currentRoute];
                 NSLog(@"%f",_currentRoute.polyline.coordinate.latitude);
+                
+               
+
             }];
             // NSLog(@"%@",@"pippO");
             // .location.coordinate.latitude; //will returns latitude
             //             placemark.location.coordinate.longitude; will returns longitude
         }
     }];
-    
-    // Make the destination
+         // Make the destination
     // [_mappa setShowsUserLocation:NO];
     
 }
@@ -212,7 +215,7 @@
                                                              delegate:self
                                                     cancelButtonTitle:@"Annulla"
                                                destructiveButtonTitle:@"Visualizza percorso"
-                                                    otherButtonTitles:@"Avvia navigazione",nil];
+                                                   otherButtonTitles:@"Apple Map",@"Waze",nil];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         // In this case the device is an iPad.
@@ -240,9 +243,53 @@
             [self AvviaNavigazione];
         }
         
+        if (buttonIndex==2) {
+            NSString *indirizzo=[NSString stringWithFormat:@"%@%@%@%@%@",_paese.text,@",",_indirizzo.text,@",",_cap.text];
+            // MKMapItem *mapItemClass=[[MKMapItem alloc]init];
+            
+            // NSLog(@"%s","ENTRO NAVIGAZIONE");
+            CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+            [geocoder geocodeAddressString:indirizzo
+                         completionHandler:^(NSArray *placemarks, NSError *error) {
+                             
+                             // Convert the CLPlacemark to an MKPlacemark
+                             // Note: There's no error checking for a failed geocode
+                             CLPlacemark *geocodedPlacemark = [placemarks objectAtIndex:0];
+                             MKPlacemark *placemark = [[MKPlacemark alloc]
+                                                       initWithCoordinate:geocodedPlacemark.location.coordinate
+                                                       addressDictionary:geocodedPlacemark.addressDictionary];
+                             
+                             
+                             [self Waze:placemark.coordinate.latitude longitude:placemark.coordinate.longitude];
+                         }];
+            
+            
+            
+        }
         
+
         
     }
+}
+- (void) Waze :(double)latitude
+     longitude:(double)longitude{
+    if ([[UIApplication sharedApplication]
+         canOpenURL:[NSURL URLWithString:@"waze://"]]) {
+        
+        // Waze is installed. Launch Waze and start navigation
+        NSString *urlStr =
+        [NSString stringWithFormat:@"waze://?ll=%f,%f&navigate=yes",
+         latitude, longitude];
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+        
+    } else {
+        
+        // Waze is not installed. Launch AppStore to install Waze app
+        [[UIApplication sharedApplication] openURL:[NSURL
+                                                    URLWithString:@"http://itunes.apple.com/us/app/id323229106"]];
+    }
+    
 }
 
 

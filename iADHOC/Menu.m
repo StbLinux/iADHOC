@@ -83,7 +83,7 @@
     }
     
     if ([menu.voce isEqualToString:@"Articoli"]) {
-        cell.thumbnailImageView.image = [UIImage imageNamed:@"Articoli.png"];
+        cell.thumbnailImageView.image = [UIImage imageNamed:@"Articoli.jpg"];
         
     }
     
@@ -143,7 +143,7 @@
 */
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
    
-  
+    NSLog(@"%ld",(long)indexPath.row);
     switch (indexPath.row) {
         case 0: [self performSegueWithIdentifier:@"Clienti" sender:self];
             break;
@@ -170,9 +170,9 @@
        
 
 }*/
-- (BOOL)prefersStatusBarHidden
+/*- (BOOL)prefersStatusBarHidden
 {
     return YES;
-}
+}*/
 
 @end

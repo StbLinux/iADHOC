@@ -126,7 +126,9 @@
                 // This is the case of an executable query (insert, update, ...).
                 
                 // Execute the query.
-                BOOL executeQueryResults = sqlite3_step(compiledStatement);
+               // BOOL executeQueryResults = sqlite3_step(compiledStatement);
+              integer_t executeQueryResults = sqlite3_step(compiledStatement);
+
                 if (executeQueryResults == SQLITE_DONE) {
                     // Keep the affected rows.
                     self.affectedRows = sqlite3_changes(sqlite3Database);

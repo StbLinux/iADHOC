@@ -20,5 +20,6 @@
 @property (nonatomic,strong) UIActivityIndicatorView *spinner;
 
 -(void)EstrapolaDati:(NSString*) SQLstring;
+- (BOOL)checkConnection;
 
 @end

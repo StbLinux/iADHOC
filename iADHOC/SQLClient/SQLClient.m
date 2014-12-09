@@ -186,8 +186,8 @@ struct COL
 			for (pcol = columns; pcol - columns < ncols; pcol++)
 			{
 				//Get column number
-				int c = pcol - columns + 1;
-				
+				//int c = pcol - columns + 1;
+			double_t	c = pcol - columns + 1;
 				//Get column metadata
 				pcol->name = dbcolname(connection, c);
 				pcol->type = dbcoltype(connection, c);
